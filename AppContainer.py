@@ -7,7 +7,7 @@ função e variaveis usa snake_case
 from abc import ABC, abstractmethod
 import datetime
 import os
-
+import openpyxl
 
 class Visualizador:
     def __init__(self, endereco_exbicoes : str):

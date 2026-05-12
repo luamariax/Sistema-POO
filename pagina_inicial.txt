@@ -3,4 +3,7 @@
 PÁGINA INICIAL
 
 ***************************************
-digite "ok" para ir para pŕoxima página
+Opções:
+1 -Cadastrar conta
+2 -Fazer Login
+***************************************
