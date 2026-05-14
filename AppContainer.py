@@ -23,7 +23,8 @@ def funiciona_app(self):
         self.acesso_visualizador.mostrar_erro()
         entrada = self.acesso_interface.capiturar_comando_usuario()
         self.atualizar_app(entrada)
-"""        
+"""      
+  
 
 def main():
     usuario = "123"

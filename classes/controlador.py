@@ -30,14 +30,60 @@ class Controlador:
         elif validade == "ERRADO#":
             return False
 
-    def navegar_pelo_app(self, comando):
+    def navegar_pelo_app(self, input_cliente: int):
+        comando =int(input_cliente)
         estado_atual = self.acesso_visualizador.exbicao_atual
         if estado_atual == "pagina_inicial.txt":
-            if comando == "ok":
-                return "pagina_segunda.txt"
-        elif estado_atual == "pagina_segunda.txt":
-            if comando == "ok":
+            if comando == 1:
+                return "pagina_login.txt"
+        
+        elif estado_atual == "pagina_login.txt":
+            if comando == 0:
                 return "pagina_inicial.txt"
+            elif comando == 1:
+                return "pagina_entrada.txt"
+        
+        elif estado_atual == "pagina_cadastro.txt":
+            if comando == 0:
+                return "pagina_inicial.txt"
+            elif comando == 1:
+                return "pagina_inicial.txt"
+        
+        elif estado_atual == "pagina_entrada.txt":
+            if comando == 0:
+                return "pagina_login.txt"
+            elif comando == 1 :
+                return "pagina_todos_semestres.txt"
+            elif comando == 2:
+                return "pagina_todos_eventos.txt"
+            
+        elif estado_atual == "pagina_todos_semestres.txt":
+            if comando == 0:
+                return "pagina_entrada.txt"
+            elif comando > 0:
+                return "pagina_semestre_especifico.txt"
+        
+        elif estado_atual == "pagina_todos_eventos.txt":
+            if comando == 0:
+                return "pagina_entrada.txt"
+            elif comando > 0 :
+                return "pagina_evento_especifico.txt"
+        
+        elif estado_atual == "pagina_evento_especifico.txt":
+            if comando == 0:
+                return "pagina_todos_eventos.txt"
+        
+        elif estado_atual == "pagina_semestre_especifico.txt":
+            if comando == 0:
+                return "pagina_todos_semestres.txt"
+            elif comando :
+                return "pagina_materia.txt"
+        
+        elif estado_atual == "pagina_materia.txt":
+            if comando == 0:
+                return "pagina_semestre_especifico.txt"
+
+        
         return " "
 
     def atualizar_app(self, entrada):
