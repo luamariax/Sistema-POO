@@ -1,9 +1,9 @@
 import pandas
 pd = pandas
 
-def autenticar_usuarios(caminho_arquivo:str):
+def autenticar_usuarios(caminho_arquivo:str = "Arquivo.xlsx"):
     
-    data_frame = pd.read_excel(caminho_arquivo, dtype=str)
+    data_frame = pd.read_excel("Arquivo.xlsx", sheet_name="Usuarios")
 
     input_email = input("Digite seu e-mail: ").strip().lower()
 
@@ -20,7 +20,7 @@ def autenticar_usuarios(caminho_arquivo:str):
         return None
     
     id_user = linha.iloc[0]["id_user"]
-    print(f"Login bem-sucedido! Bem-vind@")
+    print(f"Login bem-sucedido! Bem-vind@ {linha.iloc[0]['nome']}!")
     return id_user
 
 id_retornado = autenticar_usuarios("Usuarios.xlsx")
