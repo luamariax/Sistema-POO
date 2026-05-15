@@ -1,1 +1,9 @@
-pagina_entrada.txt
+***************************************
+
+PÁGINA DE ENTRADA
+
+***************************************
+Opções:
+1 -Ver os seus semestres
+2 -Ver os eventos agendados
+***************************************

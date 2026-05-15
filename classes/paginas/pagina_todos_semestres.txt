@@ -1,1 +1,8 @@
-pagina_todos_semestres.txt
+***************************************
+
+LISTA COM TODOS OS SEUS SEMESTRES
+
+***************************************
+Digite 0 para volta a pagina de entrada
+***************************************
+Qual deles quer ver em específico?

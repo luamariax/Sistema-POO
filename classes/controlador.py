@@ -30,11 +30,17 @@ class Controlador:
         elif validade == "ERRADO#":
             return False
 
-    def navegar_pelo_app(self, input_cliente: int):
+    def criar_sessao(self, nova_id_usuario: str):
+        self.user = nova_id_usuario
+
+    def navegar_pelo_app(self, input_cliente: str):
         comando =int(input_cliente)
         estado_atual = self.acesso_visualizador.exbicao_atual
+        
         if estado_atual == "pagina_inicial.txt":
             if comando == 1:
+                return "pagina_cadastro.txt"
+            elif comando == 2:
                 return "pagina_login.txt"
         
         elif estado_atual == "pagina_login.txt":

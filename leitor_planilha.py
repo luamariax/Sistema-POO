@@ -23,5 +23,26 @@ def autenticar_usuarios(caminho_arquivo:str = "Arquivo.xlsx"):
     print(f"Login bem-sucedido! Bem-vind@ {linha.iloc[0]['nome']}!")
     return id_user
 
-id_retornado = autenticar_usuarios("Usuarios.xlsx")
-print(f"ID do usuário autenticado: {id_retornado}")
+#id_retornado = autenticar_usuarios("Usuarios.xlsx")
+#print(f"ID do usuário autenticado: {id_retornado}")
+
+
+data_frame = pd.read_excel("Arquivo.xlsx", sheet_name="Materias", dtype=str)
+usuario = "U001"
+titularidade = "2026-1"
+id_materia = "DCC001"
+lista_de_semestre = data_frame[data_frame["id_user"] == usuario]
+lista_de_materias = lista_de_semestre[lista_de_semestre["id_semestre"] == titularidade]
+materia = lista_de_materias[lista_de_materias["id_materia"] == id_materia]
+id_usuario = materia["id_user"][0] 
+if materia.empty:
+    print(f"Nenhuma materia encontrada para o usuário {id_usuario}.")
+print(f"\nMateria do usuario {id_usuario}:")
+
+for indice, linha in lista_de_materias.iterrows():
+    numero_da_escolha = indice+1
+    titulo_materia = linha["titulo"]
+    print(f"{numero_da_escolha} -semestre de {titulo_materia}.")
+numero_da_escolha_especifica = materia.index[0]+1
+titulo_materia_especifica = materia["titulo"][0]
+print(f"{numero_da_escolha_especifica} -semestre de {titulo_materia_especifica}.")

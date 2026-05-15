@@ -1,1 +1,9 @@
-pagina_semestre_especifico.txt
+***************************************
+
+SEMESTRE EM ESPECÍFICO
+
+***************************************
+Digite 0 para voltar a pagina com todos
+os seus semestres
+***************************************
+Qual matéria quer ver em específico?

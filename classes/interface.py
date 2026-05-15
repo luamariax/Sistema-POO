@@ -19,6 +19,9 @@ class Interface:
     def capiturar_comando_usuario(self):
         resposta = input("Digite aqui o comando: ")
         if resposta.strip():
-            return f"VALIDO#{resposta}"
+            if resposta.isdigit():
+                return f"VALIDO#{resposta}"
+            else:
+                return f"ERRADO# a resposta tem de ser um número"
         else:
             return f"ERRADO# vazio é uma resposta invalida"

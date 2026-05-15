@@ -1,1 +1,7 @@
-"pagina_cadastro.txt"
+***************************************
+
+PÁGINA DE CADASTRO
+
+***************************************
+Digite 0 para retornar a pagina inicial
+***************************************
