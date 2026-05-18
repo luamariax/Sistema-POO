@@ -7,6 +7,7 @@ from classes.interface import Interface
 from classes.repositorio import Repositorio
 from classes.visualizador import Visualizador
 from classes.controlador import Controlador
+from classes.user import User
 
 from abc import ABC, abstractmethod
 import datetime
@@ -24,10 +25,18 @@ def funiciona_app(self):
         entrada = self.acesso_interface.capiturar_comando_usuario()
         self.atualizar_app(entrada)
 """      
-  
+
+class AppContainer():
+    def __init__(self):
+        usuario = User
+        olhos = Visualizador("endereco")
+        ouvido = Interface()
+        memoria = Repositorio()
+        caminho = Controlador(usuario, olhos, ouvido, memoria)
+        caminho.funiciona_app()
 
 def main():
-    usuario = "123"
+    usuario = User("U001","ana.souza@ufmg.br", "Ana Souza")
     olhos = Visualizador("endereco")
     ouvido = Interface()
     memoria = Repositorio()
