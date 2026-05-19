@@ -7,7 +7,7 @@ função e variaveis usa snake_case
 from abc import ABC, abstractmethod
 import datetime
 import os
-import openpyxl
+
 import pandas
 
 pd = pandas
@@ -20,7 +20,7 @@ class Visualizador:
         self.dados_necessarios = pd.DataFrame()
 
     def mostrar_exibicao(self):
-        os.system('clear')
+        os.system('cls'if os.name == 'nt' else 'clear')
         try:
             with open(f"classes/paginas/{self.exbicao_atual}", 'r', encoding='utf-8') as texto:
                 for linha in texto:

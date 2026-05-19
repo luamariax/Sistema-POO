@@ -10,7 +10,7 @@ from .visualizador import Visualizador
 from abc import ABC, abstractmethod
 import datetime
 import os
-import openpyxl
+
 import pandas
 
 pd = pandas

@@ -12,10 +12,11 @@ from classes.user import User
 from abc import ABC, abstractmethod
 import datetime
 import os
-import openpyxl
+
 import pandas
 
 pd = pandas
+
 
 """
 def funiciona_app(self):
