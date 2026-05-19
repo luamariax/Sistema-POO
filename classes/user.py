@@ -5,7 +5,7 @@ classe usa PascalCase
 função e variaveis usa snake_case
 User não precisa guardar a senha, 
 Pois só precisa da senha pra logar
-
+o User será responsável por guardar os dados do usuário e validar os atributos, como id_user, email e nome. Ele deve garantir que os dados sejam válidos e não vazios, aplicando o método .strip() para remover espaços em branco. O User também deve ter métodos para acessar e modificar esses atributos de forma segura, utilizando propriedades (getters e setters) para garantir a integridade dos dados. Além disso, o User deve ser capaz de validar o formato do email para garantir que seja um endereço eletrônico válido.
 """
 import unittest
 
@@ -14,7 +14,7 @@ class User():
     def __init__(self, identificacao: str, endereco_eletronico: str, nome_do_usuario: str):
         self._validar_dados(identificacao, endereco_eletronico, nome_do_usuario)
         self.id_user = identificacao
-        self.email = endereco_eletronico
+        self.__email = endereco_eletronico
         self.nome = nome_do_usuario
     
     @property
@@ -28,12 +28,7 @@ class User():
 
     @property
     def email(self):
-        return self._email
-    @email.setter
-    def email(self, valor):
-        if not valor.strip():
-            raise ValueError("Não pode ser vazio.")
-        self._email = valor.strip()
+        return self.__email
 
     @property
     def nome(self):
