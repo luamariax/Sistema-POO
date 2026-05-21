@@ -57,13 +57,13 @@ class Rota:
             if comando == "0":
                 return "pagina_entrada"
             elif comando == "1":
-                return "pagina_semestre_especifico"
+                return "pagina_especifico_semestre"
         
         elif estado_atual == "pagina_todos_eventos":
             if comando == "0":
                 return "pagina_entrada"
             elif comando == "1" :
-                return "pagina_evento_especifico"
+                return "pagina_especifico_evento"
         
         elif estado_atual == "pagina_especifico_evento":
             if comando == "0":
@@ -77,7 +77,7 @@ class Rota:
         
         elif estado_atual == "pagina_materia":
             if comando == "0":
-                return "pagina_semestre_especifico"
+                return "pagina_especifico_semestre"
             elif comando == "1":
                 return "pagina_atividade_avaliativa"
             

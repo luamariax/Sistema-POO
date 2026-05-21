@@ -4,10 +4,10 @@ classe usa PascalCase
 função e variaveis usa snake_case
 """
 from abc import ABC, abstractmethod
-from modelos.Rota import Rota
+
 
 class ControladorAbstrato(ABC):
-    def __init__(self, rota: Rota):
+    def __init__(self, rota):
         self.rota = rota
     
     @abstractmethod

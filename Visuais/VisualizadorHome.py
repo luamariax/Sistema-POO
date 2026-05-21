@@ -19,8 +19,8 @@ class VisualizadorHome(VisualizadorAbstrato):
             ft.Text("Página Inicial - Menu Principal", size=30, weight=ft.FontWeight.BOLD),
             ft.Divider(),
             ft.Text("Escolha uma opção:"),
-            ft.ElevatedButton("Ir para Página Login", on_click=lambda e: self._on_click(e, "1")),
-            ft.ElevatedButton("Ir para Página Cadastro", on_click=lambda e: self._on_click(e, "2")),
+            ft.ElevatedButton("Ir para Página Login", on_click=lambda e: self._on_click(e, "2")),
+            ft.ElevatedButton("Ir para Página Cadastro", on_click=lambda e: self._on_click(e, "1")),
         ])
     
     def _on_click(self, e, comando):

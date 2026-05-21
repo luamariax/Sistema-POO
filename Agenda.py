@@ -25,33 +25,27 @@ from Controles.ControladorLogin import ControladorLogin
 from Controles.ControladorMateria import ControladorMateria
 from Controles.ControladorTodosEventos import ControladorTodosEventos
 from Controles.ControladorTodosSemestres import ControladorTodosSemestres
-from .modelos.Rota import Rota
-"""model"""
-from Servicos.ServicoUser import ServicoUser
-from Servicos.ServicoObjeto import ServicoObjeto
-from Servicos.ServicoAtividade import ServicoAtividade
+
+"""servico"""
+
+
+"""modelos"""
+from modelos.Rota import Rota
 
 from typing import Dict, Type
 import flet as ft
 
-def main(page: ft.Page):
-    page.title = "App com Arquitetura MVC Adaptada"
-    page.theme_mode = ft.ThemeMode.LIGHT
-    page.padding = 20
-    page.window_width = 400
-    page.window_height = 600
-    
-    # Criar instâncias dos visualizadores
-    visual_atividade = VisualizadorAtividade
-    visual_cadastro = VisualizadorCadastro
-    visual_entrada = VisualizadorEntrada
-    visual_especifico_evento = VisualizadorEspecificoEvento
-    visual_especifico_semestre = VisualizadorEspecificoSemestre
-    visual_home = VisualizadorHome
-    visual_login = VisualizadorLogin
-    visual_materia = VisualizadorMateria
-    visual_todos_eventos = VisualizadorTodosEventos
-    visual_todos_semestres = VisualizadorTodosSemestres
+def configurar_app():
+    visual_atividade = VisualizadorAtividade()
+    visual_cadastro = VisualizadorCadastro()
+    visual_entrada = VisualizadorEntrada()
+    visual_especifico_evento = VisualizadorEspecificoEvento()
+    visual_especifico_semestre = VisualizadorEspecificoSemestre()
+    visual_home = VisualizadorHome()
+    visual_login = VisualizadorLogin()
+    visual_materia = VisualizadorMateria()
+    visual_todos_eventos = VisualizadorTodosEventos()
+    visual_todos_semestres = VisualizadorTodosSemestres()
     
     # Criar dicionários
     todos_visualizadores = {
@@ -67,6 +61,8 @@ def main(page: ft.Page):
         "pagina_atividade_avaliativa": visual_atividade
     }
     
+    rota = Rota(visual_home, None, todos_visualizadores, {})
+
     # Criar instâncias dos controladores
     controle_atividade = ControladorAtividade(rota)
     controle_cadastro = ControladorCadastro(rota)
@@ -94,7 +90,8 @@ def main(page: ft.Page):
     }
 
     # Criar Rota
-    rota = Rota(visual_home, controle_home, todos_visualizadores, todos_controladores)
+    rota._lista_controladores = todos_controladores
+    rota._atual_controlador = controle_home
     
     # Associar controladores aos visualizadores
     visual_atividade.controlador = controle_atividade
@@ -108,11 +105,23 @@ def main(page: ft.Page):
     visual_todos_eventos.controlador = controle_todos_eventos
     visual_todos_semestres.controlador = controle_todos_semestres
     
+    return rota, visual_home
+
+def main(page: ft.Page):
+    page.title = "App com Arquitetura MVC - Múltiplos Arquivos"
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.padding = 20
+    page.window_width = 400
+    page.window_height = 600
+    
+    rota, pagina_inicial = configurar_app()
+    
+    
     # Configurar página na rota
     rota.set_page(page)
     
     # Mostrar página inicial
-    visual_home.mostrar(page)
+    pagina_inicial.mostrar(page)
 
 # Iniciar o app
 if __name__ == "__main__":
