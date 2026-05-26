@@ -27,15 +27,20 @@ from Controles.ControladorTodosEventos import ControladorTodosEventos
 from Controles.ControladorTodosSemestres import ControladorTodosSemestres
 
 """servico"""
-
+from Servicos.ServicoUser import ServicoUser
 
 """modelos"""
 from modelos.Rota import Rota
+from modelos.Repositorio import Repositorio
 
 from typing import Dict, Type
 import flet as ft
 
 def configurar_app():
+    # 1. Criar repositório e serviço
+    repo = Repositorio("Arquivo.xlsx")
+    servico_user = ServicoUser(repo)
+
     visual_atividade = VisualizadorAtividade()
     visual_cadastro = VisualizadorCadastro()
     visual_entrada = VisualizadorEntrada()
@@ -70,7 +75,7 @@ def configurar_app():
     controle_especifico_evento = ControladorEspecificoEvento(rota)
     controle_especifico_semestre = ControladorEspecificoSemestre(rota)
     controle_home = ControladorHome(rota)
-    controle_login = ControladorLogin(rota)
+    controle_login = ControladorLogin(rota, servico_user, visual_login)
     controle_materia = ControladorMateria(rota)
     controle_todos_eventos = ControladorTodosEventos(rota)
     controle_todos_semestres = ControladorTodosSemestres(rota)
