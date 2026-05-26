@@ -1,7 +1,6 @@
-from ABC import ABC, abstractmethod
+from abc import ABC, abstractmethod
 
 class Objeto(ABC):
-    @abstractmethod
     def __init__(self, id: int, titulo: str, descricao: str):
         self.validar_atributos(id, titulo, descricao)
         self.id = id
@@ -22,6 +21,18 @@ class Objeto(ABC):
         print(f"ID: {self.id}")
         print(f"Título: {self.titulo}")
         print(f"Descrição: {self.descricao}")
+
+    @abstractmethod
+    def criar(self, dados: dict) -> None:
+        pass
+
+    @abstractmethod
+    def editar(self, dados: dict) -> None:
+        pass
+
+    @abstractmethod
+    def deletar(self) -> None:
+        pass
 
     
     
