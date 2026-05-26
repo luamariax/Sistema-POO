@@ -1,3 +1,5 @@
+from .Objeto import Objeto
+
 class Semestre(Objeto):
     def __init__(self, id: int, titulo: str, descricao: str, ano: int, semestre_num: int, ativo: bool):
         super().__init__(id, titulo, descricao)

@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-class Repositorio:
+class Repositorio():
     def __init__(self, caminho_arquivo: str):
         self.caminho = caminho_arquivo
         self.data_frame = None

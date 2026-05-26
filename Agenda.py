@@ -30,8 +30,8 @@ from Controles.ControladorTodosSemestres import ControladorTodosSemestres
 from Servicos.ServicoUser import ServicoUser
 
 """modelos"""
-from modelos.Rota import Rota
-from modelos.Repositorio import Repositorio
+from Modelos.Rota import Rota
+from Modelos.Repositorio import Repositorio
 
 from typing import Dict, Type
 import flet as ft

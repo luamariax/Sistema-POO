@@ -7,7 +7,7 @@ from classes.interface import Interface
 from classes.repositorio import Repositorio
 from classes.visualizador import Visualizador
 from classes.controlador import Controlador
-from classes.user import User
+from Negocio.User import User
 
 from abc import ABC, abstractmethod
 import datetime
