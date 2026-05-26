@@ -54,8 +54,7 @@ class User():
             raise TypeError("Nome do usuário deve ser uma string.")
         if not nome_do_usuario.strip():
             raise ValueError("Nome do usuário não pode ser vazio.")
-        if not hasattr(self, 'id_user') or not hasattr(self, 'email') or not hasattr(self, 'nome'):
-            raise ValueError("O objeto deve ter os atributos id_user, email e nome.")
+
         
         
 
