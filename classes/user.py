@@ -5,7 +5,7 @@ classe usa PascalCase
 função e variaveis usa snake_case
 User não precisa guardar a senha, 
 Pois só precisa da senha pra logar
-o User será responsável por guardar os dados do usuário e validar os atributos, como id_user, email e nome. Ele deve garantir que os dados sejam válidos e não vazios, aplicando o método .strip() para remover espaços em branco. O User também deve ter métodos para acessar e modificar esses atributos de forma segura, utilizando propriedades (getters e setters) para garantir a integridade dos dados. Além disso, o User deve ser capaz de validar o formato do email para garantir que seja um endereço eletrônico válido.
+o User será responsável por guardar os dados do usuário e validar os atributos, como id_user, email e nome. Ele deve garantir que os dados sejam válidos e não vazios, aplicando o método .strip() para remover espaços em branco. O User também tem métodos para acessar e modificar esses atributos de forma segura, utilizando propriedades (getters e setters) para garantir a integridade dos dados. Além disso, o User deve ser capaz de validar o formato do email para garantir que seja um endereço eletrônico válido.
 """
 import unittest
 
