@@ -4,10 +4,17 @@ classe usa PascalCase
 função e variaveis usa snake_case
 """
 
-import pandas as pd
-import os
-from typing import List, Dict, Optional
-import unittest
+import pandas as pd #biblioteca para manipular dados tabulares
+import os #biblioteca para interagir com sistema operacional
+import re #biblioteca para padrão de texto
+from typing import List, Dict, Optional #biblioteca para anotar tipos no código
+import unittest #biblioteca para testes automatizados
+
+#------------------ Novo tipo de erro -------------
+class PlanilhaInexistenteError(Exception):
+    """Exceção lançada quando se tenta inserir em uma planilha que não existe no arquivo."""
+    pass
+
 #---------------------- Repositorio ---------------
 class Repositorio:
     def __init__(self, caminho_arquivo: str):
@@ -23,11 +30,43 @@ class Repositorio:
         """Carrega todas as planilhas do arquivo Excel em um dicionário de DataFrames."""
         if not os.path.exists(self.caminho):
             raise FileNotFoundError(f"Arquivo {self.caminho} não encontrado.")
-        # Lê todas as planilhas de uma vez
         with pd.ExcelFile(self.caminho) as xls:
             for sheet_name in xls.sheet_names:
                 self._planilhas[sheet_name] = pd.read_excel(xls, sheet_name=sheet_name, dtype=str)
 
+    #------ Métodos para gerenciar a planilha ------
+    def _salvar_todas_planilhas(self):
+        """Sobrescreve o arquivo Excel com todos os DataFrames atuais."""
+        with pd.ExcelWriter(self.caminho, engine='openpyxl') as writer:
+            for sheet_name, df in self._planilhas.items():
+                df.to_excel(writer, sheet_name=sheet_name, index=False)
+
+    def _obter_planilha_obrigatoria(self, nome: str) -> pd.DataFrame:
+        """Retorna o DataFrame da planilha especificada ou lança exceção se não existir."""
+        df = self._planilhas.get(nome)
+        if df is None:
+            raise PlanilhaInexistenteError(f"A planilha '{nome}' não existe no arquivo.")
+        return df
+
+    def _gerar_proximo_id(self, df: pd.DataFrame, coluna_id: str, prefixo: str) -> str:
+        """
+        Gera um novo ID com o prefixo fornecido, baseado no maior valor numérico existente.
+        Exemplo: para prefixo 'U', se houver U001, U002, gera 'U003'.
+        """
+        if df.empty:
+            return f"{prefixo}001"
+        ids = df[coluna_id].dropna().astype(str)
+        numeros = []
+        for valor in ids:
+            match = re.search(r'\d+', valor)
+            if match:
+                numeros.append(int(match.group()))
+        if not numeros:
+            return f"{prefixo}001"
+        proximo = max(numeros) + 1
+        return f"{prefixo}{proximo:03d}"
+
+    # ------------------- Buscas -------------------
     # ------------------ Usuários ------------------
     def buscar_usuario_por_email(self, email: str) -> Optional[Dict]:
         """Busca um usuário pelo email na planilha 'Usuarios'. Retorna um dicionário ou None."""
@@ -103,6 +142,82 @@ class Repositorio:
                        (df['id_materia'] == id_materia)]
         return registros.to_dict('records')
     
+    # ------------------ MÉTODOS DE CRIAÇÃO ------------------
+    # ----------------------- Usúario ------------------------
+    def criar_usuario(self, dados: dict):
+        """
+        Insere um novo usuário na planilha 'Usuarios'.
+        Espera um dicionário com as chaves: email, senha, nome.
+        """
+        obrigatorias = {'id_user', 'email', 'senha', 'nome'}
+        gerada_id_user = self._gerar_proximo_id(self._planilhas['Usuarios'],'id_user','U')
+        dados['id_user'] = gerada_id_user
+        if not obrigatorias.issubset(dados.keys()):
+            raise ValueError(f"Dados incompletos. Campos obrigatórios: {obrigatorias}")
+        df = self._planilhas.setdefault('Usuarios', pd.DataFrame(columns=list(obrigatorias)))
+        if dados['id_user'] in df['id_user'].values:
+            raise ValueError(f"Usuário com id_user '{dados['id_user']}' já existe.")
+        nova_linha = pd.DataFrame([dados])
+        self._planilhas['Usuarios'] = pd.concat([df, nova_linha], ignore_index=True)
+        self._salvar_todas_planilhas()
+
+    # ----------------------- Semestre ------------------------
+    def criar_semestre(self, dados: dict):
+        """
+        Insere um novo semestre na planilha 'Semestres'.
+        Espera: id_semestre, id_user, descricao, ano, periodo (ou as colunas existentes).
+        """
+        obrigatorias = {'id_semestre', 'id_user'}  # mínimo: identificadores
+        if not obrigatorias.issubset(dados.keys()):
+            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+        df = self._planilhas.get('Semestres')
+        if df is None:
+            # Se a planilha não existe, cria com as colunas fornecidas
+            self._planilhas['Semestres'] = pd.DataFrame(columns=list(dados.keys()))
+            df = self._planilhas['Semestres']
+        if dados['id_semestre'] in df['id_semestre'].values:
+            raise ValueError(f"Semestre com id_semestre '{dados['id_semestre']}' já existe.")
+        nova_linha = pd.DataFrame([dados])
+        self._planilhas['Semestres'] = pd.concat([df, nova_linha], ignore_index=True)
+        self._salvar_todas_planilhas()
+
+    # ----------------------- Materia ------------------------
+    def criar_materia(self, dados: dict):
+        """
+        Insere uma nova matéria na planilha 'Materias'.
+        Espera no mínimo: id_materia, id_user, id_semestre.
+        """
+        obrigatorias = {'id_materia', 'id_user', 'id_semestre'}
+        if not obrigatorias.issubset(dados.keys()):
+            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+        df = self._planilhas.get('Materias')
+        if df is None:
+            self._planilhas['Materias'] = pd.DataFrame(columns=list(dados.keys()))
+            df = self._planilhas['Materias']
+        if dados['id_materia'] in df['id_materia'].values:
+            raise ValueError(f"Matéria com id_materia '{dados['id_materia']}' já existe.")
+        nova_linha = pd.DataFrame([dados])
+        self._planilhas['Materias'] = pd.concat([df, nova_linha], ignore_index=True)
+        self._salvar_todas_planilhas()
+
+    # ----------------------- Prova ------------------------
+    def criar_prova(self, dados: dict):
+        """
+        Insere uma nova prova na planilha 'Provas'.
+        Espera no mínimo: id_prova, id_user, id_semestre, id_materia.
+        """
+        obrigatorias = {'id_prova', 'id_user', 'id_semestre', 'id_materia'}
+        if not obrigatorias.issubset(dados.keys()):
+            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+        df = self._planilhas.get('Provas')
+        if df is None:
+            self._planilhas['Provas'] = pd.DataFrame(columns=list(dados.keys()))
+            df = self._planilhas['Provas']
+        if dados['id_prova'] in df['id_prova'].values:
+            raise ValueError(f"Prova com id_prova '{dados['id_prova']}' já existe.")
+        nova_linha = pd.DataFrame([dados])
+        self._planilhas['Provas'] = pd.concat([df, nova_linha], ignore_index=True)
+        self._salvar_todas_planilhas()
 
 #--------------------- Teste -----------------------
 class TestRepositorioMultiSheet(unittest.TestCase):
