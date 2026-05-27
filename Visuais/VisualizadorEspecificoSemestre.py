@@ -16,7 +16,7 @@ class VisualizadorEspecificoSemestre(VisualizadorAbstrato):
             ft.Text("Página deste Semestre Específico", size=30, weight=ft.FontWeight.BOLD),
             ft.Divider(),
             ft.Text("Lista de Materias desse semestre"),
-            ft.ElevatedButton("Voltar para Página Todos Eventos", on_click=lambda e: self._on_click(e, "0")),
+            ft.ElevatedButton("Voltar para Página Todos Semestres", on_click=lambda e: self._on_click(e, "0")),
             ft.ElevatedButton("Ir para Página Materia", on_click=lambda e: self._on_click(e, "1")),
         ])
     

@@ -45,7 +45,7 @@ class Repositorio:
         """Retorna o DataFrame da planilha especificada ou lança exceção se não existir."""
         df = self._planilhas.get(nome)
         if df is None:
-            raise PlanilhaInexistenteError(f"A planilha '{nome}' não existe no arquivo.")
+            raise PlanilhaInexistenteError(f"CLASSE:repositorio.py//A planilha '{nome}' não existe no arquivo.")
         return df
 
     def _gerar_proximo_id(self, df: pd.DataFrame, coluna_id: str, prefixo: str) -> str:
@@ -152,14 +152,14 @@ class Repositorio:
         #o criar semestre explica melhor
         obrigatorias = { 'email', 'senha', 'nome'}
         if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"Dados incompletos. Campos obrigatórios: {obrigatorias}")
+            raise ValueError(f"CLASSE:repositorio.py//Dados incompletos. Campos obrigatórios: {obrigatorias}")
         df = self._planilhas.get('Usuarios')
         if df is None:
-            raise ValueError(f"Planilha não existente.")
+            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
         gerada_id_user = self._gerar_proximo_id(df,'id_user','U')
         dados['id_user'] = gerada_id_user
         if dados['id_user'] in df['id_user'].values:
-            raise ValueError(f"Usuário com id_user '{dados['id_user']}' já existe.")
+            raise ValueError(f"CLASSE:repositorio.py//Usuário com id_user '{dados['id_user']}' já existe.")
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Usuarios'] = pd.concat([df, nova_linha], ignore_index=True)
         self._salvar_todas_planilhas()
@@ -173,11 +173,11 @@ class Repositorio:
         #define e verifica se tem os parametros mínimos para criar.
         obrigatorias = { 'id_user', 'titulo', 'descricao', 'data_inicio', 'data_final', 'horario', 'local', 'organizador'}  
         if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.
         df_geral = self._planilhas.get('Evento')
         if df_geral is None:
-            raise ValueError(f"Planilha não existente.")
+            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
         #Vai especificando o DataFrame pelas ids. 
         df_especifico = df_geral[df_geral['id_user'] == dados['id_user']]
         #Usa o DataFrame específico para gerar a id nova e coloca nos dados.
@@ -185,7 +185,7 @@ class Repositorio:
         dados['id_evento'] = gerada_id_evento
         #Verifica se a id criada já existe no DataFrame específico.
         if dados['id_evento'] in df_especifico['id_evento'].values:
-            raise ValueError(f"Evento com id_evento '{dados['id_evento']}' já existe.")
+            raise ValueError(f"CLASSE:repositorio.py//Evento com id_evento '{dados['id_evento']}' já existe.")
         #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Evento'] = pd.concat([df_geral, nova_linha], ignore_index=True)
@@ -200,11 +200,11 @@ class Repositorio:
         #define e verifica se tem os parametros mínimos para criar.
         obrigatorias = { 'id_user', 'titulo', 'descricao'}  
         if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.
         df_geral = self._planilhas.get('Semestre')
         if df_geral is None:
-            raise ValueError(f"Planilha não existente.")
+            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
         #Vai especificando o DataFrame pelas ids. 
         df_especifico = df_geral[df_geral['id_user'] == dados['id_user']]
         #Usa o DataFrame específico para gerar a id nova e coloca nos dados.
@@ -212,7 +212,7 @@ class Repositorio:
         dados['id_semestre'] = gerada_id_semestre
         #Verifica se a id criada já existe no DataFrame específico.
         if dados['id_semestre'] in df_especifico['id_semestre'].values:
-            raise ValueError(f"Semestre com id_semestre '{dados['id_semestre']}' já existe.")
+            raise ValueError(f"CLASSE:repositorio.py//Semestre com id_semestre '{dados['id_semestre']}' já existe.")
         #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Semestres'] = pd.concat([df_geral, nova_linha], ignore_index=True)
@@ -227,11 +227,11 @@ class Repositorio:
         #define e verifica se tem os parametros mínimos para criar.
         obrigatorias = { 'id_user', 'id_semestre', 'titulo', 'descricao', 'professor', 'sala' ,'horario'}
         if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.
         df_geral = self._planilhas.get('Materias')
         if df_geral is None:
-            raise ValueError(f"Planilha não existente.")
+            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
         #Vai especificando o DataFrame pelas ids. 
         df_especifico = df_geral[(df_geral['id_user'] == dados['id_user']) & (df_geral['id_semestre'] == dados['id_semestre'])]
         #Usa o DataFrame específico para gerar a id nova e coloca nos dados.
@@ -239,7 +239,7 @@ class Repositorio:
         dados['id_materia'] = gerada_id_materia
         #Verifica se a id criada já existe no DataFrame específico.
         if dados['id_materia'] in df_especifico['id_materia'].values:
-            raise ValueError(f"Matéria com id_materia '{dados['id_materia']}' já existe.")
+            raise ValueError(f"CLASSE:repositorio.py//Matéria com id_materia '{dados['id_materia']}' já existe.")
         #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Materias'] = pd.concat([df_geral, nova_linha], ignore_index=True)
@@ -254,11 +254,11 @@ class Repositorio:
         #define e verifica se tem os parametros mínimos para criar.
         obrigatorias = { 'id_user', 'id_semestre', 'id_materia', 'valor_nota', 'nota_obtida', 'titulo', 'dia' , 'conteudo', 'sala', 'duracao'}
         if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.
         df_geral = self._planilhas.get('Provas')
         if df_geral is None:
-            raise ValueError(f"Planilha não existente.")
+            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
         #Vai especificando o DataFrame pelas ids. 
         df_especifico = df_geral[(df_geral['id_user'] == dados['id_user']) & 
                        (df_geral['id_semestre'] == dados['id_semestre']) & 
@@ -268,7 +268,7 @@ class Repositorio:
         dados['id_prova'] = gerada_id_prova
         #Verifica se a id criada já existe no DataFrame específico.
         if dados['id_prova'] in df_especifico['id_prova'].values:
-            raise ValueError(f"Provas com id_prova '{dados['id_prova']}' já existe.")
+            raise ValueError(f"CLASSE:repositorio.py//Provas com id_prova '{dados['id_prova']}' já existe.")
         #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Provas'] = pd.concat([df_geral, nova_linha], ignore_index=True)
@@ -283,11 +283,11 @@ class Repositorio:
         #define e verifica se tem os parametros mínimos para criar.
         obrigatorias = { 'id_user', 'id_semestre', 'id_materia','valor_nota', 'nota_obtida', 'titulo','data_entrega', 'descricao_tarefa', 'grupo'}
         if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"Campos mínimos obrigatórios: {obrigatorias}")
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.
         df_geral = self._planilhas.get('Trabalhos')
         if df_geral is None:
-            raise ValueError(f"Planilha não existente.")
+            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
         #Vai especificando o DataFrame pelas ids. 
         df_especifico = df_geral[(df_geral['id_user'] == dados['id_user']) & 
                        (df_geral['id_semestre'] == dados['id_semestre']) & 
@@ -297,7 +297,7 @@ class Repositorio:
         dados['id_trabalho'] = gerada_id_trabalho
         #Verifica se a id criada já existe no DataFrame específico.
         if dados['id_trabalho'] in df_especifico['id_trabalho'].values:
-            raise ValueError(f"Trabalho com id_trabalho '{dados['id_trabalho']}' já existe.")
+            raise ValueError(f"CLASSE:repositorio.py//Trabalho com id_trabalho '{dados['id_trabalho']}' já existe.")
         #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Trabalhos'] = pd.concat([df_geral, nova_linha], ignore_index=True)
