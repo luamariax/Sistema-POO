@@ -12,7 +12,7 @@ from Negocio.User import User
 class ServicoUser():
     def __init__(self, repositorio: Repositorio):
         self.repositorio = repositorio
-        self.usuario_logado = None   
+        self._usuario_logado = None   
 
     @property
     def usuario_logado(self) -> User | None:
