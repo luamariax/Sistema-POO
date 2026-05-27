@@ -20,6 +20,54 @@ class VisualizadorLogin(VisualizadorAbstrato):
         return "pagina_login"
 
     def construir(self):
+        # ==========================================
+        # 1. CABEÇALHO (Botão Voltar, Título e Nota)
+        # ==========================================
+        
+        # O VERDADEIRO BOTÃO DE VOLTAR (Ícone de Seta enviando "0")
+        botao_voltar = ft.IconButton(
+            icon=ft.Icons.ARROW_BACK,
+            icon_color=ft.Colors.BLUE_900,
+            tooltip="Voltar para a página anterior",
+            on_click=lambda e: self._on_click(e, "0")
+        )
+
+        titulo_com_botao = ft.Row([
+            botao_voltar,
+            ft.Text(f"PÁGINA DE LOGIN", size=26, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900)
+        ], alignment=ft.MainAxisAlignment.START)
+
+        info_login = ft.Column([
+            titulo_com_botao,
+            ft.Row([
+                ft.Container(width=40), 
+                ft.Column([
+                    ft.Text(f"escreva seu e-mail e senha", size=16, color=ft.Colors.GREY_700)
+                ])
+            ])
+        ])
+
+        # Monta o cabeçalho final
+        cabecalho = ft.Column([
+            info_login,
+            ft.Divider(color=ft.Colors.BLUE_200, thickness=2, height=30),
+            ft.Text("Atividades Avaliativas", size=20, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900),
+        ])
+
+        # ==========================================
+        # 4. BOTÃO NOVA ATIVIDADE
+        # ==========================================
+        botao_novo = ft.Row([
+            ft.ElevatedButton(
+                "➕ Nova Atividade",          
+                color=ft.Colors.WHITE,
+                bgcolor=ft.Colors.ORANGE_700,
+                # Enviando "1" para abrir a página da atividade
+                on_click=lambda e: self._on_click(e, "1")
+            )
+        ], alignment=ft.MainAxisAlignment.CENTER)
+
+
         return ft.Column([
             ft.Text("Página de Login", size=30, weight=ft.FontWeight.BOLD),
             ft.Divider(),
@@ -58,3 +106,5 @@ class VisualizadorLogin(VisualizadorAbstrato):
         self.senha_field.value = ""
         self.erro_text.value = ""
         page.add(self.construir())
+        
+        

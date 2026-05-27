@@ -6,21 +6,108 @@ função e variaveis usa snake_case
 
 import flet as ft
 from .VisualizadorAbstrato import VisualizadorAbstrato
+from Controles.ControladorAbstrato import ControladorAbstrato
 
 class VisualizadorEntrada(VisualizadorAbstrato):
+    def __init__(self):
+        self._controlador = None
+        self._nome = "nome da pessoa"
+
+    @property
+    def controlador(self):
+        return self._controlador
+    
+    @controlador.setter
+    def controlador(self, controle):
+        if not isinstance(controle, ControladorAbstrato):
+            raise TypeError(f"CLASSE:VisualizadorEntrada.py// Objeto não é do tipo Controlador.")
+        self._controlador = controle
+
     def nome_da_pagina(self) -> str:
         return "pagina_entrada"
     
     def construir(self):
+        # ==========================================
+        # 1. CABEÇALHO (Botão Voltar, Título)
+        # ==========================================
+        
+        # O VERDADEIRO BOTÃO DE VOLTAR (Ícone de Seta enviando "0")
+        botao_voltar = ft.IconButton(
+            icon=ft.Icons.ARROW_BACK,
+            icon_color=ft.Colors.BLUE_900,
+            tooltip="Voltar para a página anterior",
+            on_click=lambda e: self._on_click(e, "0")
+        )
+
+        titulo_com_botao = ft.Row([
+            botao_voltar,
+            ft.Text(f"PAGÍNA DE ENTRADA", size=26, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900)
+        ], alignment=ft.MainAxisAlignment.START)
+
+        info_entrada = ft.Column([
+            titulo_com_botao,
+            # Trocamos o padding por uma Row com um Container invisível de 40 pixels!
+            ft.Row([
+                ft.Container(width=40), # Este é o nosso "espaço em branco"
+                ft.Column([
+                    ft.Text(f"Bem vind@! {self._nome}", size=16, color=ft.Colors.GREY_700),
+                ])
+            ])
+        ])
+
+        # Monta o cabeçalho final
+        cabecalho = ft.Column([
+            info_entrada,
+            ft.Divider(color=ft.Colors.BLUE_200, thickness=2, height=30),
+            ft.Text("O que você gostaria de ver?", size=20, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900),
+        ])
+
+        # ==========================================
+        # 2. Opção de ver próximos eventos
+        # ==========================================
+        atividade_prova = ft.Container(
+            content=ft.Row([
+                ft.Text("Todos os eventos", size=14, expand=True),
+                ft.ElevatedButton(
+                    "Ver",                 
+                    color=ft.Colors.WHITE,      
+                    bgcolor=ft.Colors.BLUE,     
+                    on_click=lambda e: self._on_click(e, "dar_nota_prova1")
+                )
+            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
+            padding=15,
+            bgcolor=ft.Colors.BLUE_50, 
+            border_radius=8
+        )
+
+        # ==========================================
+        # 3. Opção de ver os semestres cadastrados
+        # ==========================================
+        atividade_trabalho = ft.Container(
+            content=ft.Row([
+                ft.Text("Todos os semestres", size=14, expand=True),
+                ft.ElevatedButton(
+                    "Ver",                 
+                    color=ft.Colors.WHITE,
+                    bgcolor=ft.Colors.GREEN,
+                    on_click=lambda e: self._on_click(e, "entregar_trab1")
+                )
+            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
+            padding=15,
+            bgcolor=ft.Colors.GREEN_50,
+            border_radius=8
+        )
+        
+        # Retorna a Coluna principal com todos os elementos
         return ft.Column([
-            ft.Text("Página de Entrada", size=30, weight=ft.FontWeight.BOLD),
-            ft.Divider(),
-            ft.Text("Você está na página de entrada"),
-            ft.ElevatedButton("Voltar para Página Inicial", on_click=lambda e: self._on_click(e, "0")),
-            ft.ElevatedButton("Ir para Página Todos Semestres", on_click=lambda e: self._on_click(e, "1")),
-            ft.ElevatedButton("Ir para Página Todos Eventos", on_click=lambda e: self._on_click(e, "2")),
+            cabecalho,
+            atividade_prova,
+            ft.Divider(height=10, color=ft.Colors.TRANSPARENT), # Espaçador invisível
+            atividade_trabalho,
+            ft.Divider(color=ft.Colors.GREY_300)
         ])
     
+        
     def _on_click(self, e, comando):
         if hasattr(self, 'controlador'):
             self.controlador.processar_acao(comando)
