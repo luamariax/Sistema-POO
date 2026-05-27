@@ -1,7 +1,9 @@
 """
 aqui será o main do app
 """
+import os
 """view"""
+
 
 from Visuais.VisualizadorAtividade import VisualizadorAtividade
 from Visuais.VisualizadorCadastro import VisualizadorCadastro
@@ -38,7 +40,9 @@ import flet as ft
 
 def configurar_app():
     # 1. Criar repositório e serviço
-    repo = Repositorio("Arquivo.xlsx")
+    diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+    caminho_arquivo = os.path.join(diretorio_atual, "Arquivo.xlsx")
+    repo = Repositorio(caminho_arquivo)
     servico_user = ServicoUser(repo)
 
     visual_atividade = VisualizadorAtividade()
