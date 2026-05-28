@@ -23,7 +23,7 @@ class User():
     @id_user.setter
     def id_user(self, valor):
         if not valor.strip():
-            raise ValueError("Não pode ser vazio.")
+            raise ValueError("CLASSE:User.py//Não pode ser vazio.")
         self._id_user = valor.strip()
 
     @property
@@ -36,24 +36,24 @@ class User():
     @nome.setter
     def nome(self, valor):
         if not valor.strip():
-            raise ValueError("Não pode ser vazio.")
+            raise ValueError("CLASSE:User.py//Não pode ser vazio.")
         self._nome = valor.strip()
 
     def _validar_dados(self, identificacao: str, endereco_eletronico: str, nome_do_usuario: str):
         if not isinstance(identificacao, str):
-            raise TypeError("Identificação deve ser uma string.")
+            raise TypeError("CLASSE:User.py//Identificação deve ser uma string.")
         if not identificacao.strip():
-            raise ValueError("Identificação não pode ser vazia.")
+            raise ValueError("CLASSE:User.py//Identificação não pode ser vazia.")
         if not isinstance(endereco_eletronico, str):
-            raise TypeError("Endereço eletrônico deve ser uma string.")
+            raise TypeError("CLASSE:User.py//Endereço eletrônico deve ser uma string.")
         if not endereco_eletronico.strip():
-            raise ValueError("Endereço eletrônico não pode ser vazio.")
+            raise ValueError("CLASSE:User.py//Endereço eletrônico não pode ser vazio.")
         if "@" not in endereco_eletronico or "." not in endereco_eletronico:
-            raise ValueError("Endereço eletrônico deve ser um e-mail válido.")
+            raise ValueError("CLASSE:User.py//Endereço eletrônico deve ser um e-mail válido.")
         if not isinstance(nome_do_usuario, str):
-            raise TypeError("Nome do usuário deve ser uma string.")
+            raise TypeError("CLASSE:User.py//Nome do usuário deve ser uma string.")
         if not nome_do_usuario.strip():
-            raise ValueError("Nome do usuário não pode ser vazio.")
+            raise ValueError("CLASSE:User.py//Nome do usuário não pode ser vazio.")
 
         
         
