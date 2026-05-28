@@ -40,7 +40,20 @@ class ServicoUser():
     def logout(self):
         """Desloga o usuário atual."""
         self._usuario_logado = None
-    
+
+    def cadastro_usuario(self, nome, email, senha):
+        """
+        Tenta autenticar o usuário, 
+        Se bem-sucedido, ele dá erro de que usuário já existe.
+        Do contrário, ele salva o novo user
+        """
+        usuario_dict = self.repositorio.buscar_usuario_por_email(email)
+        if not usuario_dict:
+            #Se não achar email
+            dicionario = {"nome": nome, "email":email, "senha":senha}
+            self.repositorio.criar_usuario(dicionario)
+            return True
+        return False
 
 
 
