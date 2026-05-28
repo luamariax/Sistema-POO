@@ -55,7 +55,7 @@ class VisualizadorCadastro(VisualizadorAbstrato):
 
         self.cadastro_button = ft.ElevatedButton(
             "Cadastrar",
-            on_click=self._on_login_click,
+            on_click=self._on_cadastro_click,
             width=360,
             height=48,
             style=ft.ButtonStyle(
@@ -86,12 +86,13 @@ class VisualizadorCadastro(VisualizadorAbstrato):
                         text_align=ft.TextAlign.CENTER,
                     ),
                     ft.Divider(height=16, color=ft.Colors.TRANSPARENT),
+                    self.nome_field,
                     self.email_field,
                     self.senha_field,
                     ft.Container(height=4),
                     self.erro_text,
                     ft.Container(height=4),
-                    self.login_button,
+                    self.cadastro_button,
                     ft.Divider(height=8, color=ft.Colors.TRANSPARENT),
                     ft.TextButton(
                         "Voltar para Página Inicial",
@@ -124,7 +125,7 @@ class VisualizadorCadastro(VisualizadorAbstrato):
         if self.controlador:
             self.controlador.processar_acao(comando)
 
-    def _on_login_click(self, e):
+    def _on_cadastro_click(self, e):
         nome = self.nome_field.value
         email = self.email_field.value
         senha = self.senha_field.value

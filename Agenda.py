@@ -74,7 +74,7 @@ def configurar_app():
 
     # Criar instâncias dos controladores
     controle_atividade = ControladorAtividade(rota)
-    controle_cadastro = ControladorCadastro(rota)
+    controle_cadastro = ControladorCadastro(rota, servico_user, visual_cadastro)
     controle_entrada = ControladorEntrada(rota)
     controle_especifico_evento = ControladorEspecificoEvento(rota)
     controle_especifico_semestre = ControladorEspecificoSemestre(rota)
