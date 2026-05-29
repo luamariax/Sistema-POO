@@ -65,14 +65,15 @@ class VisualizadorEntrada(VisualizadorAbstrato):
         # ==========================================
         # 2. Opção de ver próximos eventos
         # ==========================================
-        atividade_prova = ft.Container(
+        opcao_eventos = ft.Container(
             content=ft.Row([
-                ft.Text("Todos os eventos", size=14, expand=True),
+                ft.Text("📅 Todos os eventos", size=14, expand=True),
                 ft.ElevatedButton(
                     "Ver",                 
                     color=ft.Colors.WHITE,      
                     bgcolor=ft.Colors.BLUE,     
-                    on_click=lambda e: self._on_click(e, "dar_nota_prova1")
+                    # Manda "2" para a Rota abrir os Eventos
+                    on_click=lambda e: self._on_click(e, "2")
                 )
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             padding=15,
@@ -83,14 +84,16 @@ class VisualizadorEntrada(VisualizadorAbstrato):
         # ==========================================
         # 3. Opção de ver os semestres cadastrados
         # ==========================================
-        atividade_trabalho = ft.Container(
+
+        opcao_semestres = ft.Container(
             content=ft.Row([
-                ft.Text("Todos os semestres", size=14, expand=True),
+                ft.Text("🎓 Todos os semestres", size=14, expand=True),
                 ft.ElevatedButton(
                     "Ver",                 
                     color=ft.Colors.WHITE,
                     bgcolor=ft.Colors.GREEN,
-                    on_click=lambda e: self._on_click(e, "entregar_trab1")
+                    # Manda "1" para a Rota abrir os Semestres
+                    on_click=lambda e: self._on_click(e, "1")
                 )
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             padding=15,
@@ -101,9 +104,9 @@ class VisualizadorEntrada(VisualizadorAbstrato):
         # Retorna a Coluna principal com todos os elementos
         return ft.Column([
             cabecalho,
-            atividade_prova,
+            opcao_eventos,
             ft.Divider(height=10, color=ft.Colors.TRANSPARENT), # Espaçador invisível
-            atividade_trabalho,
+            opcao_semestres,
             ft.Divider(color=ft.Colors.GREY_300)
         ])
     
@@ -115,3 +118,4 @@ class VisualizadorEntrada(VisualizadorAbstrato):
     def mostrar(self, page: ft.Page):
         page.clean()
         page.add(self.construir())
+        page.update()
