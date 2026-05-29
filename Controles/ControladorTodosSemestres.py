@@ -7,6 +7,13 @@ from .ControladorAbstrato import ControladorAbstrato
 
 """import dos servicos"""
 from Controles.ControladorAbstrato import ControladorAbstrato
+
+
 class ControladorTodosSemestres(ControladorAbstrato):
+    def __init__(self, rota, repositorio):
+        self.rota = rota
+        self.repositorio = repositorio
+
+        
     def processar_acao(self, acao: str, dados: dict = None):
         self.rota.atualizar_estado(acao)
