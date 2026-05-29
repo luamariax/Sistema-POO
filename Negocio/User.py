@@ -23,7 +23,7 @@ class User():
     @id_user.setter
     def id_user(self, valor):
         if not valor.strip():
-            raise ValueError("CLASSE:User.py//Não pode ser vazio.")
+            raise ValueError("CLASSE:User.py//id_user não pode ser vazio.")
         self._id_user = valor.strip()
 
     @property
@@ -36,7 +36,7 @@ class User():
     @nome.setter
     def nome(self, valor):
         if not valor.strip():
-            raise ValueError("CLASSE:User.py//Não pode ser vazio.")
+            raise ValueError("CLASSE:User.py//Nome não pode ser vazio.")
         self._nome = valor.strip()
 
     def _validar_dados(self, identificacao: str, endereco_eletronico: str, nome_do_usuario: str):

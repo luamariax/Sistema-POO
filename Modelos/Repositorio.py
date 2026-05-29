@@ -168,10 +168,10 @@ class Repositorio:
     def criar_evento(self, dados: dict):
         """
         Insere um novo evento na planilha 'Evento'.
-        Espera: id_user, descricao, titulo, descrição, data_inicio, data_final, horario, local, organizador.
+        Espera: id_user, descricao, titulo, descrição, data_inicio, data_final, local, organizador.
         """
         #define e verifica se tem os parametros mínimos para criar.
-        obrigatorias = { 'id_user', 'titulo', 'descricao', 'data_inicio', 'data_final', 'horario', 'local', 'organizador'}  
+        obrigatorias = { 'id_user', 'titulo', 'descricao', 'data_inicio', 'data_final', 'local', 'organizador'}  
         if not obrigatorias.issubset(dados.keys()):
             raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.
@@ -195,10 +195,10 @@ class Repositorio:
     def criar_semestre(self, dados: dict):
         """
         Insere um novo semestre na planilha 'Semestres'.
-        Espera: id_user, descricao, titulo (ano-semestre), descrição.
+        Espera: id_user, titulo (ano-semestre), descrição, ano, semestre_ano, ativo.
         """
         #define e verifica se tem os parametros mínimos para criar.
-        obrigatorias = { 'id_user', 'titulo', 'descricao'}  
+        obrigatorias = { 'id_user', 'titulo', 'descricao', 'ano', 'semestre_ano', 'ativo'}  
         if not obrigatorias.issubset(dados.keys()):
             raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.
