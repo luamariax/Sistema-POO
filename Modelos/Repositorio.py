@@ -249,7 +249,8 @@ class Repositorio:
     def criar_prova(self, dados: dict):
         """
         Insere uma nova prova na planilha 'Provas'.
-        Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, nota_obtida, titulo, dia , conteudo, sala, duracao.
+        Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, 
+        nota_obtida, titulo, dia , conteudo, sala, duracao.
         """
         #define e verifica se tem os parametros mínimos para criar.
         obrigatorias = { 'id_user', 'id_semestre', 'id_materia', 'valor_nota', 'nota_obtida', 'titulo', 'dia' , 'conteudo', 'sala', 'duracao'}
@@ -278,10 +279,11 @@ class Repositorio:
     def criar_trabalho(self, dados: dict):
         """
         Insere uma novo trabalho na planilha 'Trabalhos'.
-        Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, nota_obtida, titulo, data_entrega, descricao_tarefa, grupo.
+        Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, 
+        nota_obtida, titulo, data_entrega, descricao_tarefa, grupo, entregue.
         """
         #define e verifica se tem os parametros mínimos para criar.
-        obrigatorias = { 'id_user', 'id_semestre', 'id_materia','valor_nota', 'nota_obtida', 'titulo','data_entrega', 'descricao_tarefa', 'grupo'}
+        obrigatorias = { 'id_user', 'id_semestre', 'id_materia','valor_nota', 'nota_obtida', 'titulo','data_entrega', 'descricao_tarefa', 'grupo', 'entregue'}
         if not obrigatorias.issubset(dados.keys()):
             raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
         #pega a planilha geral e verifica se ela existe.

@@ -3,11 +3,12 @@ from .AtividadeAvaliativa import AtividadeAvaliativa
 from datetime import datetime
 
 class Trabalho(AtividadeAvaliativa):
-    def __init__(self, id: str, titulo: str, valorAtividade: float, dataEntrega: date, descricaoTarefa: str, grupo: str):
+    def __init__(self, id: str, titulo: str, valorAtividade: float, dataEntrega: date, descricaoTarefa: str, grupo: str, entregue):
         super().__init__(id, titulo, valorAtividade)
         self.dataEntrega = dataEntrega
         self.descricaoTarefa = descricaoTarefa
         self.grupo = grupo
+        self.entregue = entregue
         
     @property
     def dataEntrega(self):
@@ -35,6 +36,20 @@ class Trabalho(AtividadeAvaliativa):
         if not valor.strip():
             raise ValueError("CLASSE:Trabalho.py//grupo não pode ser vazio.")
         self._grupo = valor.strip()
+
+    @property
+    def entregue(self):
+        return self._entregue
+    @entregue.setter
+    def entregue(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Trabalho.py//entregue não pode ser vazio.")
+        elif valor == "True":
+            self._entregue = True
+        elif valor == "False":
+            self._entregue = False
+        else:
+            ValueError("CLASSE:Trabalho.py//entregue tem de True ou False.")
     
 
     def marcar_como_entregue(self):
