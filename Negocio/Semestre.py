@@ -4,10 +4,47 @@ class Semestre(Objeto):
     def __init__(self, id: int, titulo: str, descricao: str, ano: int, semestre_num: int, ativo: bool):
         super().__init__(id, titulo, descricao)
         
-        self.ano = ano
-        self.semestre_num = semestre_num
-        self.ativo = ativo
+        self.ano = ano                      #Type int
+        self.semestre_num = semestre_num    #Type int
+        self.ativo = ativo                  #Type bool
         self.materias = [] # Lista que guardará as matérias deste semestre
+
+    @property
+    def ano(self):
+        return self._ano
+    @ano.setter
+    def ano(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Semestre.py//ano não pode ser vazio.")
+        elif not valor.isdigit():
+            raise ValueError("CLASSE:Semestre.py//ano tem de ser inteiro.")
+        self._ano = int(valor.strip())
+    
+    @property
+    def semestre_num(self):
+        return self._semestre_num
+    @semestre_num.setter
+    def semestre_num(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Semestre.py//semestre_num não pode ser vazio.")
+        elif not valor.isdigit():
+            raise ValueError("CLASSE:Semestre.py//semestre_num tem de ser inteiro.")
+        self._semestre_num = int(valor.strip())
+
+    @property
+    def ativo(self):
+        return self._ativo
+    @ativo.setter
+    def ativo(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Semestre.py//ativo não pode ser vazio.")
+        elif valor == "True":
+            self._ativo = True
+        elif valor == "False":
+            self._ativo = False
+        else:
+            ValueError("CLASSE:Semestre.py//ativo tem de True ou False.")
+        
 
     def adicionar_materia(self, materia) -> None:
         self.materias.append(materia)

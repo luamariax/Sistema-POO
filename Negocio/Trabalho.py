@@ -1,15 +1,56 @@
 from datetime import date
 from .AtividadeAvaliativa import AtividadeAvaliativa
+from datetime import datetime
 
 class Trabalho(AtividadeAvaliativa):
-    def __init__(self, id: str, titulo: str, valorAtividade: float, dataEntrega: date, descricaoTarefa: str, grupo: str):
+    def __init__(self, id: str, titulo: str, valorAtividade: float, dataEntrega: date, descricaoTarefa: str, grupo: str, entregue):
         super().__init__(id, titulo, valorAtividade)
         self.dataEntrega = dataEntrega
         self.descricaoTarefa = descricaoTarefa
         self.grupo = grupo
+        self.entregue = entregue
         
-        # O trabalho está pendente na lista do aluno
-        self.entregue = False 
+    @property
+    def dataEntrega(self):
+        return self._dataEntrega
+    @dataEntrega.setter
+    def dataEntrega(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Trabalho.py//dataEntrega não pode ser vazio.")
+        self._dataEntrega = datetime.strptime(valor.strip(), "%Y-%m-%d") 
+
+    @property
+    def descricaoTarefa(self):
+        return self._descricaoTarefa
+    @descricaoTarefa.setter
+    def descricaoTarefa(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Trabalho.py//descricaoTarefa não pode ser vazio.")
+        self._descricaoTarefa = valor.strip()
+
+    @property
+    def grupo(self):
+        return self._grupo
+    @grupo.setter
+    def grupo(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Trabalho.py//grupo não pode ser vazio.")
+        self._grupo = valor.strip()
+
+    @property
+    def entregue(self):
+        return self._entregue
+    @entregue.setter
+    def entregue(self, valor):
+        if not valor.strip():
+            raise ValueError("CLASSE:Trabalho.py//entregue não pode ser vazio.")
+        elif valor == "True":
+            self._entregue = True
+        elif valor == "False":
+            self._entregue = False
+        else:
+            ValueError("CLASSE:Trabalho.py//entregue tem de True ou False.")
+    
 
     def marcar_como_entregue(self):
         self.entregue = True
