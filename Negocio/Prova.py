@@ -3,8 +3,8 @@ from .AtividadeAvaliativa import AtividadeAvaliativa
 from datetime import datetime
 
 class Prova(AtividadeAvaliativa):
-    def __init__(self, id: str, titulo: str, valorAtividade: float, dia: date, conteudo: str, sala: str, duracao: int):
-        super().__init__(id, titulo, valorAtividade)
+    def __init__(self, id: str, titulo: str, valorAtividade: float, notaObtida, dia: date, conteudo: str, sala: str, duracao: int):
+        super().__init__(id, titulo, valorAtividade, notaObtida)
         self.dia = dia              #Type: date
         self.conteudo = conteudo    #Type: str
         self.sala = sala            #Type: str
@@ -17,7 +17,7 @@ class Prova(AtividadeAvaliativa):
     def dia(self, valor):
         if not valor.strip():
             raise ValueError("CLASSE:Prova.py//dia não pode ser vazio.")
-        self._dia = datetime.strptime(valor.strip(), formato="%Y-%m-%d") 
+        self._dia = datetime.strptime(valor.strip(), "%Y-%m-%d") 
     
     @property
     def conteudo(self):

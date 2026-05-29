@@ -4,9 +4,9 @@ class Materia(Objeto):
     def __init__(self, id: int, titulo: str, descricao: str, professor: str, sala: str, horarios: str):
         super().__init__(id, titulo, descricao)
         
-        self.professor = professor
-        self.sala = sala
-        self.horarios = horarios
+        self.professor = professor      #Type: str
+        self.sala = sala                #Type: str
+        self.horarios = horarios        #Type: str
         self.avaliacoes = [] # Lista de Atividades Avaliativas [cite: 52]
 
     @property

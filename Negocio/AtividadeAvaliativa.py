@@ -4,10 +4,10 @@ class AtividadeAvaliativa(ABC):
     def __init__(self, id: str, titulo: str, valorAtividade: float, notaObtida):
         self.validar_atributos(id, titulo, valorAtividade, notaObtida) 
         
-        self.id = id                            #Type str 
-        self.titulo = titulo                    #Type str
-        self.valorAtividade = valorAtividade    #Type float
-        self.notaObtida = notaObtida            #Type float
+        self.id = id                                    #Type str 
+        self.titulo = titulo                            #Type str
+        self.valorAtividade = float(valorAtividade)     #Type float
+        self.notaObtida = float(notaObtida)             #Type float
         
 
     def validar_atributos(self, id: str, titulo: str, valorAtividade: float, notaObtida):     

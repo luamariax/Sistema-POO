@@ -1,14 +1,17 @@
 from datetime import datetime
 from .Objeto import Objeto
+from datetime import datetime
 
 class Evento(Objeto):
-    def __init__(self, id: int, titulo: str, descricao: str, dataInicio: datetime, dataFim: datetime, local: str, organizador: str):
+    def __init__(self, id: int, titulo: str, descricao: str, data_inicio: datetime, data_fim: datetime, local: str, organizador: str):
+        dataInicio = datetime.strptime(data_inicio.strip(), "%Y-%m-%d")
+        dataFim = datetime.strptime(data_fim.strip(), "%Y-%m-%d")
         super().__init__(id, titulo, descricao)
         self.validar_datas(dataInicio, dataFim)
-        self.dataInicio = dataInicio
-        self.dataFim = dataFim
-        self.local = local
-        self.organizador = organizador
+        self.dataInicio = dataInicio    #Type datetime
+        self.dataFim = dataFim          #Type datetime
+        self.local = local              #Type str
+        self.organizador = organizador  #Type str
 
     @property
     def local(self):
