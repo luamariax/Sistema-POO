@@ -77,10 +77,10 @@ def configurar_app():
     controle_cadastro = ControladorCadastro(rota)
     controle_entrada = ControladorEntrada(rota)
     controle_especifico_evento = ControladorEspecificoEvento(rota)
-    controle_especifico_semestre = ControladorEspecificoSemestre(rota)
+    controle_especifico_semestre = ControladorEspecificoSemestre(rota, repo)
     controle_home = ControladorHome(rota)
     controle_login = ControladorLogin(rota, servico_user, visual_login)
-    controle_materia = ControladorMateria(rota)
+    controle_materia = ControladorMateria(rota, repo)
     controle_todos_eventos = ControladorTodosEventos(rota)
     controle_todos_semestres = ControladorTodosSemestres(rota)
     
@@ -107,7 +107,7 @@ def configurar_app():
     visual_cadastro.controlador = controle_cadastro
     visual_entrada.controlador = controle_entrada
     visual_especifico_evento.controlador = controle_especifico_evento
-    visual_especifico_semestre.controlador = controle_especifico_evento
+    visual_especifico_semestre.controlador = controle_especifico_semestre
     visual_home.controlador = controle_home
     visual_login.controlador = controle_login
     visual_materia.controlador = controle_materia

@@ -26,3 +26,4 @@ class VisualizadorEspecificoEvento(VisualizadorAbstrato):
     def mostrar(self, page: ft.Page):
         page.clean()
         page.add(self.construir())
+

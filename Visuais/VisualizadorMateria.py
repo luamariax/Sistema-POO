@@ -30,8 +30,6 @@ class VisualizadorMateria(VisualizadorAbstrato):
         page.add(self.construir())
 """
 
-#Dados fictícios para visualização da página
-
 import flet as ft
 from .VisualizadorAbstrato import VisualizadorAbstrato
 
@@ -39,20 +37,21 @@ class VisualizadorMateria(VisualizadorAbstrato):
     def __init__(self):
         self.container = ft.Container()
         
-        # Dados simulados da Matéria (No futuro virão do Controlador/Excel)
-        self.materia_nome = "Programação Orientada a Objetos"
-        self.materia_prof = "Profa. Luiza Bernardes"
-        self.materia_horario = "Terças, 19:00h - 20:40h"
+        # Inicialmente vazio. O ControladorMateria é quem vai preencher isto
+        # com os dados do Excel antes de chamar o mostrar().
+        self.materia = None 
     
     def nome_da_pagina(self) -> str:
         return "pagina_materia"
     
     def construir(self):
+        # Proteção: Se a tela tentar desenhar antes dos dados chegarem, não quebra o app.
+        if not self.materia:
+            return ft.Text("A carregar dados da matéria...", size=20, color=ft.Colors.GREY)
+
         # ==========================================
-        # 1. CABEÇALHO (Botão Voltar, Título e Nota)
+        # 1. CABEÇALHO (Agora usa self.materia.X)
         # ==========================================
-        
-        # O VERDADEIRO BOTÃO DE VOLTAR (Ícone de Seta enviando "0")
         botao_voltar = ft.IconButton(
             icon=ft.Icons.ARROW_BACK,
             icon_color=ft.Colors.BLUE_900,
@@ -62,24 +61,22 @@ class VisualizadorMateria(VisualizadorAbstrato):
 
         titulo_com_botao = ft.Row([
             botao_voltar,
-            ft.Text(f"📚 {self.materia_nome}", size=26, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900)
+            ft.Text(f"📚 {self.materia.nome}", size=26, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900)
         ], alignment=ft.MainAxisAlignment.START)
 
         info_materia = ft.Column([
             titulo_com_botao,
-            # Trocamos o padding por uma Row com um Container invisível de 40 pixels!
             ft.Row([
-                ft.Container(width=40), # Este é o nosso "espaço em branco"
+                ft.Container(width=40), 
                 ft.Column([
-                    ft.Text(f"👨‍🏫 Professor: {self.materia_prof}", size=16, color=ft.Colors.GREY_700),
-                    ft.Text(f"⏰ Horário: {self.materia_horario}", size=16, color=ft.Colors.GREY_700),
+                    ft.Text(f"👨‍🏫 Professor: {self.materia.professor}", size=16, color=ft.Colors.GREY_700),
+                    ft.Text(f"⏰ Horário: {self.materia.horario}", size=16, color=ft.Colors.GREY_700),
                 ])
             ])
         ])
 
-        # --- LADO DIREITO ---
-        # Simulação: No futuro, chamarás -> nota_atual = self.materia.calcular_nota()
-        nota_atual = 15.0  
+        # A nota atual pode ser atualizada futuramente chamando self.materia.calcular_nota()
+        nota_atual = 0.0  
 
         caixa_nota = ft.Container(
             content=ft.Column([
@@ -93,14 +90,12 @@ class VisualizadorMateria(VisualizadorAbstrato):
             border_radius=8
         )
 
-        # Junta a esquerda e a direita
         linha_topo = ft.Row(
             controls=[info_materia, caixa_nota],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN, 
             vertical_alignment=ft.CrossAxisAlignment.START 
         )
 
-        # Monta o cabeçalho final
         cabecalho = ft.Column([
             linha_topo,
             ft.Divider(color=ft.Colors.BLUE_200, thickness=2, height=30),
@@ -108,66 +103,63 @@ class VisualizadorMateria(VisualizadorAbstrato):
         ])
 
         # ==========================================
-        # 2. PROVA
+        # 2. LISTA DINÂMICA DE ATIVIDADES
         # ==========================================
-        atividade_prova = ft.Container(
-            content=ft.Row([
-                ft.Text("📝 Prova Parcial 1 (10.0 pts) \nStatus: Aguardando nota", size=14, expand=True),
-                ft.ElevatedButton(
-                    "Dar Nota",                 
-                    color=ft.Colors.WHITE,      
-                    bgcolor=ft.Colors.BLUE,     
-                    on_click=lambda e: self._on_click(e, "dar_nota_prova1")
-                )
-            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
-            padding=15,
-            bgcolor=ft.Colors.BLUE_50, 
-            border_radius=8
-        )
+        # Criamos uma coluna vazia que vai ser preenchida pelo 'for' abaixo
+        coluna_atividades = ft.Column()
+
+        # Percorremos todas as atividades reais que vieram do Excel
+        for atividade in self.materia.atividades:
+            
+            # Condicionais para mudar a cor e o ícone dependendo do tipo da atividade
+            is_prova = "Prova" in atividade.titulo
+            cor_fundo = ft.Colors.BLUE_50 if is_prova else ft.Colors.GREEN_50
+            cor_botao = ft.Colors.BLUE if is_prova else ft.Colors.GREEN
+            icone = "📝" if is_prova else "📁"
+            texto_botao = "Dar Nota" if is_prova else "Entregar"
+
+            cartao = ft.Container(
+                content=ft.Row([
+                    ft.Text(f"{icone} {atividade.titulo} ({atividade.valor} pts) \nStatus: {atividade.status}", size=14, expand=True),
+                    ft.ElevatedButton(
+                        texto_botao,                
+                        color=ft.Colors.WHITE,      
+                        bgcolor=cor_botao,
+                        # Passamos o ID REAL da atividade para o Controlador saber qual botão foi clicado
+                        on_click=lambda e, id_ativ=atividade.id: self._on_click(e, f"dar_nota_{id_ativ}")
+                    )
+                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
+                padding=15,
+                bgcolor=cor_fundo, 
+                border_radius=8
+            )
+            
+            coluna_atividades.controls.append(cartao)
+            coluna_atividades.controls.append(ft.Divider(height=10, color=ft.Colors.TRANSPARENT))
 
         # ==========================================
-        # 3. TRABALHO
-        # ==========================================
-        atividade_trabalho = ft.Container(
-            content=ft.Row([
-                ft.Text("📁 Trabalho Prático (5.0 pts) \nStatus: Não entregue", size=14, expand=True),
-                ft.ElevatedButton(
-                    "Entregar",                 
-                    color=ft.Colors.WHITE,
-                    bgcolor=ft.Colors.GREEN,
-                    on_click=lambda e: self._on_click(e, "entregar_trab1")
-                )
-            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
-            padding=15,
-            bgcolor=ft.Colors.GREEN_50,
-            border_radius=8
-        )
-
-        # ==========================================
-        # 4. BOTÃO NOVA ATIVIDADE
+        # 3. BOTÃO NOVA ATIVIDADE
         # ==========================================
         botao_novo = ft.Row([
             ft.ElevatedButton(
                 "➕ Nova Atividade",          
                 color=ft.Colors.WHITE,
                 bgcolor=ft.Colors.ORANGE_700,
-                # Enviando "1" para abrir a página da atividade
                 on_click=lambda e: self._on_click(e, "1")
             )
         ], alignment=ft.MainAxisAlignment.CENTER)
 
-        # Retorna a Coluna principal com todos os elementos
+        # ==========================================
+        # 4. RENDERIZAÇÃO FINAL
+        # ==========================================
         return ft.Column([
             cabecalho,
-            atividade_prova,
-            ft.Divider(height=10, color=ft.Colors.TRANSPARENT), # Espaçador invisível
-            atividade_trabalho,
+            coluna_atividades, # Inserimos a lista gerada dinamicamente aqui
             ft.Divider(color=ft.Colors.GREY_300),
             botao_novo
         ])
     
     def _on_click(self, e, comando):
-        # Envia a ação para o controlador, se ele existir
         if hasattr(self, 'controlador') and self.controlador:
             self.controlador.processar_acao(comando)
         else:
