@@ -48,4 +48,14 @@ class ControladorEspecificoSemestre(ControladorAbstrato):
         visualizador.lista_materias = lista_formatada
 
     def processar_acao(self, acao: str, dados: dict = None):
-        self.rota.atualizar_estado(acao)
+        if acao.startswith("abrir_materia_"):
+            id_materia = acao.replace("abrir_materia_", "")
+            
+            # 1. Pega no controlador da matéria e guarda o ID lá
+            # (Precisas de importar o controlador ou aceder através da lista da Rota)
+            self.rota._lista_controladores["pagina_materia"].definir_materia_ativa(id_materia)
+            
+            # 2. Agora sim, pede para mudar a tela
+            self.rota.atualizar_estado("1") 
+        else:
+            self.rota.atualizar_estado(acao)
