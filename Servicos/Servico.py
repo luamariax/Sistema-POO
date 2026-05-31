@@ -76,7 +76,7 @@ class Servico():
                     local=evento_visualizado_dict['local'],
                     organizador=evento_visualizado_dict['organizador']
                 )
-            self._objetos_do_usuario = self._usuario_logado.criar_dependente(tipo,evento_visualizado_dict)
+            self._objetos_do_usuario = evento_instanciado
         if tipo == 'Materia':
             todos_materias_list_dict = self.repositorio.buscar_materias_por_semestre_usuario(self._id_user_logado, self._id_semestre_logado)
             materia_visualizado_dict = todos_materias_list_dict[posicao]
@@ -89,7 +89,7 @@ class Servico():
                 sala=materia_visualizado_dict['sala'],
                 horarios=materia_visualizado_dict['horarios']
             )
-            self._objetos_do_usuario = self._semestre_logado.criar_dependente(materia_visualizado_dict)
+            self._objetos_do_usuario = materia_instanciado
         else:
             raise ValueError(f"Tipo {tipo} não valido para tal ação")
         
@@ -107,6 +107,25 @@ class Servico():
         else:
             raise ValueError(f"Tipo {tipo} não valido para tal ação")
 
+    def instancia_atividade(self, tipo:str, posicao: int):
+        if tipo == "Prova":
+            pass
+        elif tipo == "Trabalho":
+            pass
+        else:
+            raise ValueError(f"Tipo {tipo} não valido para tal ação")
+        
+    def retira_atividade(self, tipo: str):
+        """
+        Acaba com a instância da atividade que estava salvo
+        """
+        self._objetos_do_usuario = None
+        if tipo == 'Prova':
+            self._id_prova_logado = None
+        elif tipo == 'Trabalho':
+            self._id_trabalho_logado = None
+        else:
+            raise ValueError(f"Tipo {tipo} não valido para tal ação")
 
     def logout(self):
         """Desloga o usuário atual."""

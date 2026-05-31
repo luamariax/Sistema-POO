@@ -45,12 +45,12 @@ class VisualizadorHome(VisualizadorAbstrato):
     
     def construir(self):
         # Título grande e centralizado
-        titulo = ft.Text(
+        titulo = ft.Row(ft.Text(
             "Menu Principal",
             size=80,
             weight=ft.FontWeight.BOLD,
             text_align=ft.TextAlign.CENTER,
-        )
+        ))
 
         # Botões
         botao_login = ft.ElevatedButton(
@@ -64,21 +64,12 @@ class VisualizadorHome(VisualizadorAbstrato):
             width=250,
         )
 
-        # Coluna para os botões (centralizada)
-        botoes_coluna = ft.Column(
-            [botao_login, botao_cadastro],
-            spacing=20,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            alignment=ft.MainAxisAlignment.CENTER,
-        )
-
-        # Coluna principal com título e botões (tudo centralizado)
         coluna_principal = ft.Column(
-            [titulo, botoes_coluna],
-            spacing=30,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            alignment=ft.MainAxisAlignment.CENTER,
-            expand=True,  # para ocupar altura total e centralizar verticalmente
+            controls=[titulo, botao_login, botao_cadastro],
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,  # centraliza horizontalmente
+            alignment=ft.MainAxisAlignment.CENTER,              # centraliza verticalmente
+            spacing=20,
+            expand=True,  # ocupa toda a altura disponível
         )
 
         return coluna_principal
