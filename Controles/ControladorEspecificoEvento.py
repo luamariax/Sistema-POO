@@ -12,3 +12,10 @@ class ControladorEspecificoEvento(ControladorAbstrato):
 
     def processar_acao(self, acao: str, dados: dict = None):
         self.rota.atualizar_estado(acao)
+
+    def dar_dados(self):
+        """
+        mostrar_objeto dá um dicionário
+        """
+        return self.servico.pegar_dicionario_do_objeto()
+
