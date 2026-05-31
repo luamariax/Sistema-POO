@@ -10,8 +10,8 @@ class Servico():
     def __init__(self, repositorio: Repositorio):
         self.repositorio = repositorio
         self._usuario_logado = None             # User
-        self._objetos_do_usuario = []           # Lista Objetos
-        self._atividades_do_usuario = []        # Lista AtividadeAvaliativa
+        self._objetos_do_usuario = None         # Objeto
+        self._atividades_do_usuario = None      # AtividadeAvaliativa
         
         self._id_user_logado = None
         self._id_evento_logado = None        
@@ -45,20 +45,40 @@ class Servico():
             return user
         return None
 
-    def instanciar_objetos(self, tipo: str):
+    def instanciar_objeto(self, tipo: str, posicao: int):
         """
         Vai chamar o repositorio para o 'tipo' de objeto referente a aquela id_user.
-        Irá receber uma lista de dicionários, e interando pela lista criará os objetos.
+        Irá receber uma lista de dicionários, e selecionará pela posição recebida.
+        Criará o objeto com o dicionário.
         """
         if tipo == 'Semestres':
             todos_semestres_list_dict = self.repositorio.buscar_semestres_por_usuario(self._id_user_logado)
-            for semestre_dict in todos_semestres_list_dict:
-                novo_semestre = Semestre(
-                    id=semestre_dict['id_semestre'],
-                    titulo=semestre_dict['titulo'],
-                    
+            semestre_visualizado_dict = todos_semestres_list_dict[posicao]
+            semestre_instanciado = Semestre(
+                    id=semestre_visualizado_dict['id_semestre'],
+                    titulo=semestre_visualizado_dict['titulo'],
+                    descricao=semestre_visualizado_dict['descricao'],
+                    semestre_num=semestre_visualizado_dict['semestre_num'],
+                    ativo=semestre_visualizado_dict['ativo']
                 )
-
+            self._id_semestre_logado = semestre_visualizado_dict['id_semestre']
+            self._objetos_do_usuario = semestre_instanciado
+        else:
+            raise ValueError(f"Tipo {tipo} não valido para tal ação")
+        
+    def retirar_objeto(self, tipo: str):
+        """
+        Acaba com a instância do objeto que estava salvo
+        """
+        self._objetos_do_usuario = None
+        if tipo == 'Semestre':
+            self._id_semestre_logado = None
+        elif tipo == 'Evento':
+            self._id__logado = None
+        elif tipo == 'Materia':
+            self._id__logado = None
+        else:
+            raise ValueError(f"Tipo {tipo} não valido para tal ação")
 
 
     def logout(self):
