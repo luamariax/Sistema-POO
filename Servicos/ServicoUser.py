@@ -57,12 +57,12 @@ class ServicoUser():
 
 
 
-
+"""
 USUARIO_VALIDO = {
     "id_user": "U001",
     "email": "ana.souza@ufmg.br",
     "nome": "Ana Souza",
     "senha": "Abc@1234",
 }
-
+"""
 
