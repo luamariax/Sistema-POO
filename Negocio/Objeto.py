@@ -8,7 +8,7 @@ class Objeto(ABC):
         self.descricao = descricao
 
     def validar_atributos(self, id: int, titulo: str, descricao: str):     
-        if not isinstance(id, int) or id <= 0:
+        if not isinstance(id, str) or id.strip:
             raise ValueError("O ID deve ser um inteiro positivo.")
         
         if not isinstance(titulo, str) or not titulo.strip():

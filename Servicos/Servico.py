@@ -5,6 +5,7 @@ from Negocio.Semestre import Semestre
 from Negocio.Materia import Materia
 from Negocio.Prova import Prova
 from Negocio.Trabalho import Trabalho
+from typing import Optional
 
 class Servico():
     def __init__(self, repositorio: Repositorio):
@@ -12,20 +13,87 @@ class Servico():
         self._usuario_logado = None             # User
         self._objetos_do_usuario = None         # Objeto
         self._atividades_do_usuario = None      # AtividadeAvaliativa
-        
+        #--------ids--------------------
         self._id_user_logado = None
         self._id_evento_logado = None        
         self._id_semestre_logado = None       
         self._id_materia_logado = None   
         self._id_prova_logado = None
         self._id_trabalho_logado = None
-
+        #------- dicionario -------------
+        self._dic_objeto = None
+        self._dic_atividade = None
 
     @property
-    def usuario_logado(self) -> User | None:
-        """Retorna o usuário atualmente logado, ou None."""
+    def usuario_logado(self) -> Optional[str]:
         return self._usuario_logado
+    # ---------- id_user_logado ----------
+    @property
+    def id_user_logado(self) -> Optional[str]:
+        return self._id_user_logado
 
+    @id_user_logado.setter
+    def id_user_logado(self, value: Optional[str]) -> None:
+        if value is not None and not isinstance(value, str):
+            raise TypeError("id_user_logado deve ser uma string ou None")
+        self._id_user_logado = value
+
+    # ---------- id_evento_logado ----------
+    @property
+    def id_evento_logado(self) -> Optional[str]:
+        return self._id_evento_logado
+
+    @id_evento_logado.setter
+    def id_evento_logado(self, value: Optional[str]) -> None:
+        if value is not None and not isinstance(value, str):
+            raise TypeError("id_evento_logado deve ser uma string ou None")
+        self._id_evento_logado = value
+
+    # ---------- id_semestre_logado ----------
+    @property
+    def id_semestre_logado(self) -> Optional[str]:
+        return self._id_semestre_logado
+
+    @id_semestre_logado.setter
+    def id_semestre_logado(self, value: Optional[str]) -> None:
+        if value is not None and not isinstance(value, str):
+            raise TypeError("id_semestre_logado deve ser uma string ou None")
+        self._id_semestre_logado = value
+
+    # ---------- id_materia_logado ----------
+    @property
+    def id_materia_logado(self) -> Optional[str]:
+        return self._id_materia_logado
+
+    @id_materia_logado.setter
+    def id_materia_logado(self, value: Optional[str]) -> None:
+        if value is not None and not isinstance(value, str):
+            raise TypeError("id_materia_logado deve ser uma string ou None")
+        self._id_materia_logado = value
+
+    # ---------- id_prova_logado ----------
+    @property
+    def id_prova_logado(self) -> Optional[str]:
+        return self._id_prova_logado
+
+    @id_prova_logado.setter
+    def id_prova_logado(self, value: Optional[str]) -> None:
+        if value is not None and not isinstance(value, str):
+            raise TypeError("id_prova_logado deve ser uma string ou None")
+        self._id_prova_logado = value
+
+    # ---------- id_trabalho_logado ----------
+    @property
+    def id_trabalho_logado(self) -> Optional[str]:
+        return self._id_trabalho_logado
+
+    @id_trabalho_logado.setter
+    def id_trabalho_logado(self, value: Optional[str]) -> None:
+        if value is not None and not isinstance(value, str):
+            raise TypeError("id_trabalho_logado deve ser uma string ou None")
+        self._id_trabalho_logado = value
+    #===================================================
+    #--------------------------------------------------
     def autenticar(self, email: str, senha: str) -> User | None:
         """
         Tenta autenticar o usuário.
@@ -63,6 +131,7 @@ class Servico():
                     semestre_num=semestre_visualizado_dict['semestre_num'],
                     ativo=semestre_visualizado_dict['ativo']
                 )
+            self._dic_objeto = semestre_visualizado_dict
             self._objetos_do_usuario = semestre_instanciado
         elif tipo == 'Evento':
             todos_eventos_list_dict = self.repositorio.buscar_eventos_por_usuario(self._id_user_logado)
@@ -77,6 +146,7 @@ class Servico():
                     local=evento_visualizado_dict['local'],
                     organizador=evento_visualizado_dict['organizador']
                 )
+            self._dic_objeto = evento_visualizado_dict
             self._objetos_do_usuario = evento_instanciado
         if tipo == 'Materia':
             todos_materias_list_dict = self.repositorio.buscar_materias_por_semestre_usuario(self._id_user_logado, self._id_semestre_logado)
@@ -90,10 +160,14 @@ class Servico():
                 sala=materia_visualizado_dict['sala'],
                 horarios=materia_visualizado_dict['horarios']
             )
+            self._dic_objeto = materia_visualizado_dict
             self._objetos_do_usuario = materia_instanciado
         else:
             raise ValueError(f"Tipo {tipo} não valido para tal ação")
         
+    def pegar_dicionario_do_objeto(self):
+        pass
+
     def retirar_objeto(self, tipo: str):
         """
         Acaba com a instância do objeto que estava salvo
