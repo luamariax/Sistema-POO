@@ -19,7 +19,7 @@ class ControladorEntrada(ControladorAbstrato):
             print("CLASSE:ControladorEntrada.py// [Erro] Nenhum usuário logado no sistema.")
             return
         
-        frase = f"Bem vind@! {usuario_atual.nome_do_usuario}"
+        frase = f"Bem vind@! {usuario_atual.nome}"
         
         self.visualizador.texto_boas_vindas.value = frase
 

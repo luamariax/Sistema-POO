@@ -11,7 +11,7 @@ from Controles.ControladorAbstrato import ControladorAbstrato
 class VisualizadorEntrada(VisualizadorAbstrato):
     def __init__(self):
         self._controlador = None
-        self._nome = "nome da pessoa"
+        self.texto_boas_vindas = ft.Text("Bem vindo (a)!", size=16, color=ft.Colors.GREY_700)
 
     @property
     def controlador(self):
@@ -46,11 +46,10 @@ class VisualizadorEntrada(VisualizadorAbstrato):
 
         info_entrada = ft.Column([
             titulo_com_botao,
-            # Trocamos o padding por uma Row com um Container invisível de 40 pixels!
             ft.Row([
                 ft.Container(width=40), # Este é o nosso "espaço em branco"
                 ft.Column([
-                    ft.Text(f"Bem vind@! {self._nome}", size=16, color=ft.Colors.GREY_700),
+                    self.texto_boas_vindas,
                 ])
             ])
         ])
@@ -116,6 +115,8 @@ class VisualizadorEntrada(VisualizadorAbstrato):
             self.controlador.processar_acao(comando)
     
     def mostrar(self, page: ft.Page):
+        if self.controlador and hasattr(self.controlador, 'carregar_dados_para_tela'):
+            self.controlador.carregar_dados_para_tela()
         page.clean()
         page.add(self.construir())
         page.update()
