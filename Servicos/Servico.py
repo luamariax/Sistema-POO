@@ -59,6 +59,7 @@ class Servico():
                     id=semestre_visualizado_dict['id_semestre'],
                     titulo=semestre_visualizado_dict['titulo'],
                     descricao=semestre_visualizado_dict['descricao'],
+                    ano=semestre_visualizado_dict['ano'],
                     semestre_num=semestre_visualizado_dict['semestre_num'],
                     ativo=semestre_visualizado_dict['ativo']
                 )
@@ -77,7 +78,7 @@ class Servico():
                     organizador=evento_visualizado_dict['organizador']
                 )
             self._objetos_do_usuario = self._usuario_logado.criar_dependente(tipo,evento_visualizado_dict)
-        if tipo == 'Materia':
+        elif tipo == 'Materia':
             todos_materias_list_dict = self.repositorio.buscar_materias_por_semestre_usuario(self._id_user_logado, self._id_semestre_logado)
             materia_visualizado_dict = todos_materias_list_dict[posicao]
             self._id_materia_logado = materia_visualizado_dict['id_semestre']

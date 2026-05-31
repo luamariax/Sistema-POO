@@ -45,7 +45,7 @@ class Semestre(Objeto):
         elif valor == "False":
             self._ativo = False
         else:
-            ValueError("CLASSE:Semestre.py//ativo tem de True ou False.")
+            raise ValueError("CLASSE:Semestre.py//ativo tem de True ou False.")
         
 
     def adicionar_materia(self, materia) -> None:
