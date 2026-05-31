@@ -54,6 +54,7 @@ class Servico():
         if tipo == 'Semestres':
             todos_semestres_list_dict = self.repositorio.buscar_semestres_por_usuario(self._id_user_logado)
             semestre_visualizado_dict = todos_semestres_list_dict[posicao]
+            self._id_semestre_logado = semestre_visualizado_dict['id_semestre']
             semestre_instanciado = Semestre(
                     id=semestre_visualizado_dict['id_semestre'],
                     titulo=semestre_visualizado_dict['titulo'],
@@ -61,8 +62,34 @@ class Servico():
                     semestre_num=semestre_visualizado_dict['semestre_num'],
                     ativo=semestre_visualizado_dict['ativo']
                 )
-            self._id_semestre_logado = semestre_visualizado_dict['id_semestre']
             self._objetos_do_usuario = semestre_instanciado
+        elif tipo == 'Evento':
+            todos_eventos_list_dict = self.repositorio.buscar_eventos_por_usuario(self._id_user_logado)
+            evento_visualizado_dict = todos_eventos_list_dict[posicao]
+            self._id_evento_logado = evento_visualizado_dict['id_semestre']
+            evento_instanciado = Evento(
+                    id=evento_visualizado_dict['id_evento'],
+                    titulo=evento_visualizado_dict['titulo'],
+                    descricao=evento_visualizado_dict['descricao'],
+                    data_inicio=evento_visualizado_dict['data_inicio'],
+                    data_fim=evento_visualizado_dict['data_fim'],
+                    local=evento_visualizado_dict['local'],
+                    organizador=evento_visualizado_dict['organizador']
+                )
+            self._objetos_do_usuario = self._usuario_logado.criar_dependente(tipo,evento_visualizado_dict)
+        if tipo == 'Materia':
+            todos_materias_list_dict = self.repositorio.buscar_materias_por_semestre_usuario(self._id_user_logado, self._id_semestre_logado)
+            materia_visualizado_dict = todos_materias_list_dict[posicao]
+            self._id_materia_logado = materia_visualizado_dict['id_semestre']
+            materia_instanciado = Materia(
+                id=materia_visualizado_dict['id'],
+                titulo=materia_visualizado_dict['titulo'],
+                descricao=materia_visualizado_dict['descricao'],
+                professor=materia_visualizado_dict['professor'],
+                sala=materia_visualizado_dict['sala'],
+                horarios=materia_visualizado_dict['horarios']
+            )
+            self._objetos_do_usuario = self._semestre_logado.criar_dependente(materia_visualizado_dict)
         else:
             raise ValueError(f"Tipo {tipo} não valido para tal ação")
         
@@ -74,9 +101,9 @@ class Servico():
         if tipo == 'Semestre':
             self._id_semestre_logado = None
         elif tipo == 'Evento':
-            self._id__logado = None
+            self._id_evento_logado = None
         elif tipo == 'Materia':
-            self._id__logado = None
+            self._id_materia_logado = None
         else:
             raise ValueError(f"Tipo {tipo} não valido para tal ação")
 

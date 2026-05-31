@@ -144,7 +144,7 @@ class Repositorio:
     
     # ------------------ MÉTODOS DE CRIAÇÃO ------------------
     # ----------------------- Usúario ------------------------
-    def criar_usuario(self, dados: dict):
+    def criar_usuario(self, dados: dict) -> str:
         """
         Insere um novo usuário na planilha 'Usuarios'.
         Espera um dicionário com as chaves: email, senha, nome.
@@ -163,9 +163,10 @@ class Repositorio:
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Usuarios'] = pd.concat([df, nova_linha], ignore_index=True)
         self._salvar_todas_planilhas()
+        return gerada_id_user
         
     # ----------------------- Evento ------------------------
-    def criar_evento(self, dados: dict):
+    def criar_evento(self, dados: dict) -> str:
         """
         Insere um novo evento na planilha 'Evento'.
         Espera: id_user, descricao, titulo, descrição, data_inicio, data_final, local, organizador.
@@ -190,9 +191,10 @@ class Repositorio:
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Evento'] = pd.concat([df_geral, nova_linha], ignore_index=True)
         self._salvar_todas_planilhas()
+        return gerada_id_evento
 
     # ----------------------- Semestre ------------------------
-    def criar_semestre(self, dados: dict):
+    def criar_semestre(self, dados: dict) -> str:
         """
         Insere um novo semestre na planilha 'Semestres'.
         Espera: id_user, titulo (ano-semestre), descrição, ano, semestre_num, ativo.
@@ -217,9 +219,10 @@ class Repositorio:
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Semestres'] = pd.concat([df_geral, nova_linha], ignore_index=True)
         self._salvar_todas_planilhas()
+        return gerada_id_semestre
 
     # ----------------------- Materia ------------------------
-    def criar_materia(self, dados: dict):
+    def criar_materia(self, dados: dict) -> str:
         """
         Insere uma nova matéria na planilha 'Materias'.
         Espera no mínimo: id_user, id_semestre, titulo, descricao, professor, sala ,horario.
@@ -244,9 +247,10 @@ class Repositorio:
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Materias'] = pd.concat([df_geral, nova_linha], ignore_index=True)
         self._salvar_todas_planilhas()
+        return gerada_id_materia
 
     # ----------------------- Prova ------------------------
-    def criar_prova(self, dados: dict):
+    def criar_prova(self, dados: dict) -> str:
         """
         Insere uma nova prova na planilha 'Provas'.
         Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, 
@@ -274,9 +278,10 @@ class Repositorio:
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Provas'] = pd.concat([df_geral, nova_linha], ignore_index=True)
         self._salvar_todas_planilhas()
+        return gerada_id_prova
     
     # --------------------- Trabalho ------------------------
-    def criar_trabalho(self, dados: dict):
+    def criar_trabalho(self, dados: dict) -> str:
         """
         Insere uma novo trabalho na planilha 'Trabalhos'.
         Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, 
@@ -304,56 +309,17 @@ class Repositorio:
         nova_linha = pd.DataFrame([dados])
         self._planilhas['Trabalhos'] = pd.concat([df_geral, nova_linha], ignore_index=True)
         self._salvar_todas_planilhas()
+        return gerada_id_trabalho
 
 
     #------------------------- Editar -------------------------
     # ----------------------- Usúario ------------------------
     def editar_usuario(self, dados: dict):#Não ta pronto
-        """
-        Insere um novo usuário na planilha 'Usuarios'.
-        Espera um dicionário com as chaves: email, senha, nome.
-        """
-        #o criar semestre explica melhor
-        obrigatorias = { 'email', 'senha', 'nome'}
-        if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"CLASSE:repositorio.py//Dados incompletos. Campos obrigatórios: {obrigatorias}")
-        df = self._planilhas.get('Usuarios')
-        if df is None:
-            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
-        gerada_id_user = self._gerar_proximo_id(df,'id_user','U')
-        dados['id_user'] = gerada_id_user
-        if dados['id_user'] in df['id_user'].values:
-            raise ValueError(f"CLASSE:repositorio.py//Usuário com id_user '{dados['id_user']}' já existe.")
-        nova_linha = pd.DataFrame([dados])
-        self._planilhas['Usuarios'] = pd.concat([df, nova_linha], ignore_index=True)
-        self._salvar_todas_planilhas()
+        pass
         
     # ----------------------- Evento ------------------------
     def editar_evento(self, dados: dict):#Não ta pronto
-        """
-        Insere um novo evento na planilha 'Evento'.
-        Espera: id_user, descricao, titulo, descrição, data_inicio, data_final, local, organizador.
-        """
-        #define e verifica se tem os parametros mínimos para criar.
-        obrigatorias = { 'id_user', 'titulo', 'descricao', 'data_inicio', 'data_final', 'local', 'organizador'}  
-        if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
-        #pega a planilha geral e verifica se ela existe.
-        df_geral = self._planilhas.get('Evento')
-        if df_geral is None:
-            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
-        #Vai especificando o DataFrame pelas ids. 
-        df_especifico = df_geral[df_geral['id_user'] == dados['id_user']]
-        #Usa o DataFrame específico para gerar a id nova e coloca nos dados.
-        gerada_id_evento = self._gerar_proximo_id(df_especifico,'id_evento','E')
-        dados['id_evento'] = gerada_id_evento
-        #Verifica se a id criada já existe no DataFrame específico.
-        if dados['id_evento'] in df_especifico['id_evento'].values:
-            raise ValueError(f"CLASSE:repositorio.py//Evento com id_evento '{dados['id_evento']}' já existe.")
-        #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
-        nova_linha = pd.DataFrame([dados])
-        self._planilhas['Evento'] = pd.concat([df_geral, nova_linha], ignore_index=True)
-        self._salvar_todas_planilhas()
+        pass
 
     # ----------------------- Semestre ------------------------
     def editar_semestre(self, dados: dict): # Tá PRONTISSIMO
@@ -395,90 +361,15 @@ class Repositorio:
 
     # ----------------------- Materia ------------------------
     def editar_materia(self, dados: dict):#Não ta pronto
-        """
-        Insere uma nova matéria na planilha 'Materias'.
-        Espera no mínimo: id_user, id_semestre, titulo, descricao, professor, sala ,horario.
-        """
-        #define e verifica se tem os parametros mínimos para criar.
-        obrigatorias = { 'id_user', 'id_semestre', 'titulo', 'descricao', 'professor', 'sala' ,'horario'}
-        if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
-        #pega a planilha geral e verifica se ela existe.
-        df_geral = self._planilhas.get('Materias')
-        if df_geral is None:
-            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
-        #Vai especificando o DataFrame pelas ids. 
-        df_especifico = df_geral[(df_geral['id_user'] == dados['id_user']) & (df_geral['id_semestre'] == dados['id_semestre'])]
-        #Usa o DataFrame específico para gerar a id nova e coloca nos dados.
-        gerada_id_materia = self._gerar_proximo_id(df_especifico,'id_materia','M')
-        dados['id_materia'] = gerada_id_materia
-        #Verifica se a id criada já existe no DataFrame específico.
-        if dados['id_materia'] in df_especifico['id_materia'].values:
-            raise ValueError(f"CLASSE:repositorio.py//Matéria com id_materia '{dados['id_materia']}' já existe.")
-        #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
-        nova_linha = pd.DataFrame([dados])
-        self._planilhas['Materias'] = pd.concat([df_geral, nova_linha], ignore_index=True)
-        self._salvar_todas_planilhas()
+        pass
 
     # ----------------------- Prova ------------------------
     def editar_prova(self, dados: dict):#Não ta pronto
-        """
-        Insere uma nova prova na planilha 'Provas'.
-        Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, 
-        nota_obtida, titulo, dia , conteudo, sala, duracao.
-        """
-        #define e verifica se tem os parametros mínimos para criar.
-        obrigatorias = { 'id_user', 'id_semestre', 'id_materia', 'valor_nota', 'nota_obtida', 'titulo', 'dia' , 'conteudo', 'sala', 'duracao'}
-        if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
-        #pega a planilha geral e verifica se ela existe.
-        df_geral = self._planilhas.get('Provas')
-        if df_geral is None:
-            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
-        #Vai especificando o DataFrame pelas ids. 
-        df_especifico = df_geral[(df_geral['id_user'] == dados['id_user']) & 
-                       (df_geral['id_semestre'] == dados['id_semestre']) & 
-                       (df_geral['id_materia'] == dados['id_materia'])]
-        #Usa o DataFrame específico para gerar a id nova e coloca nos dados.
-        gerada_id_prova = self._gerar_proximo_id(df_especifico,'id_prova','P')
-        dados['id_prova'] = gerada_id_prova
-        #Verifica se a id criada já existe no DataFrame específico.
-        if dados['id_prova'] in df_especifico['id_prova'].values:
-            raise ValueError(f"CLASSE:repositorio.py//Provas com id_prova '{dados['id_prova']}' já existe.")
-        #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
-        nova_linha = pd.DataFrame([dados])
-        self._planilhas['Provas'] = pd.concat([df_geral, nova_linha], ignore_index=True)
-        self._salvar_todas_planilhas()
+        pass
     
     # --------------------- Trabalho ------------------------
     def editar_trabalho(self, dados: dict): #Não ta pronto
-        """
-        Insere uma novo trabalho na planilha 'Trabalhos'.
-        Espera no mínimo: id_user, id_semestre, id_materia, valor_nota, 
-        nota_obtida, titulo, data_entrega, descricao_tarefa, grupo, entregue.
-        """
-        #define e verifica se tem os parametros mínimos para criar.
-        obrigatorias = { 'id_user', 'id_semestre', 'id_materia','valor_nota', 'nota_obtida', 'titulo','data_entrega', 'descricao_tarefa', 'grupo', 'entregue'}
-        if not obrigatorias.issubset(dados.keys()):
-            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
-        #pega a planilha geral e verifica se ela existe.
-        df_geral = self._planilhas.get('Trabalhos')
-        if df_geral is None:
-            raise ValueError(f"CLASSE:repositorio.py//Planilha não existente.")
-        #Vai especificando o DataFrame pelas ids. 
-        df_especifico = df_geral[(df_geral['id_user'] == dados['id_user']) & 
-                       (df_geral['id_semestre'] == dados['id_semestre']) & 
-                       (df_geral['id_materia'] == dados['id_materia'])]
-        #Usa o DataFrame específico para gerar a id nova e coloca nos dados.
-        gerada_id_trabalho = self._gerar_proximo_id(df_especifico,'id_trabalho','T')
-        dados['id_trabalho'] = gerada_id_trabalho
-        #Verifica se a id criada já existe no DataFrame específico.
-        if dados['id_trabalho'] in df_especifico['id_trabalho'].values:
-            raise ValueError(f"CLASSE:repositorio.py//Trabalho com id_trabalho '{dados['id_trabalho']}' já existe.")
-        #Cria uma nova linha do DataFrame geral para ser salva como uma nova linha no excel.
-        nova_linha = pd.DataFrame([dados])
-        self._planilhas['Trabalhos'] = pd.concat([df_geral, nova_linha], ignore_index=True)
-        self._salvar_todas_planilhas()
+        pass
 
 
 

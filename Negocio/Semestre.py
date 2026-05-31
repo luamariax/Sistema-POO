@@ -1,4 +1,6 @@
 from .Objeto import Objeto
+from Modelos.Repositorio import Repositorio
+from Negocio.Materia import Materia
 
 class Semestre(Objeto):
     def __init__(self, id: int, titulo: str, descricao: str, ano: int, semestre_num: int, ativo: bool):
@@ -70,3 +72,17 @@ class Semestre(Objeto):
     def deletar(self) -> None:
         self.materias.clear() # Limpa as matérias vinculadas
         print(f"» Semestre '{self.titulo}' foi deletado do sistema.")
+
+    def criar_dependente(self, dict_incompleto, repo: Repositorio):
+        nova_id_materia = repo.criar_materia(dict_incompleto)
+        materia_dict = dict_incompleto
+        materia_dict['id_materia'] = nova_id_materia
+        materia_instanciado = Materia(
+                id=materia_dict['id_materia'],
+                titulo=materia_dict['titulo'],
+                descricao=materia_dict['descricao'],
+                professor=materia_dict['professor'],
+                sala=materia_dict['sala'],
+                horarios=materia_dict['horarios']
+            )
+        return materia_instanciado

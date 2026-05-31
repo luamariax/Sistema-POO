@@ -8,7 +8,9 @@ Pois só precisa da senha pra logar
 o User será responsável por guardar os dados do usuário e validar os atributos, como id_user, email e nome. Ele deve garantir que os dados sejam válidos e não vazios, aplicando o método .strip() para remover espaços em branco. O User também tem métodos para acessar e modificar esses atributos de forma segura, utilizando propriedades (getters e setters) para garantir a integridade dos dados. Além disso, o User deve ser capaz de validar o formato do email para garantir que seja um endereço eletrônico válido.
 """
 import unittest
-
+from Negocio.Evento import Evento
+from Negocio.Semestre import Semestre
+from Modelos.Repositorio import Repositorio
 
 class User():
     def __init__(self, identificacao: str, endereco_eletronico: str, nome_do_usuario: str):
@@ -55,7 +57,35 @@ class User():
         if not nome_do_usuario.strip():
             raise ValueError("CLASSE:User.py//Nome do usuário não pode ser vazio.")
 
-        
+    def criar_dependente(self, tipo: str, dict_incompleto, repo: Repositorio):
+        if tipo == 'Semestres':
+            nova_id_semestre = repo.criar_semestre(dict_incompleto)
+            semestre_dict = dict_incompleto
+            semestre_dict['id_semestre'] = nova_id_semestre
+            semestre_instanciado = Semestre(
+                    id=semestre_dict['id_semestre'],
+                    titulo=semestre_dict['titulo'],
+                    descricao=semestre_dict['descricao'],
+                    semestre_num=semestre_dict['semestre_num'],
+                    ativo=semestre_dict['ativo']
+                )
+            return semestre_instanciado
+        elif tipo == 'Evento':
+            nova_id_evento = repo.criar_evento(dict_incompleto)
+            evento_dict = dict_incompleto
+            evento_dict['id_evento'] = nova_id_evento
+            evento_instanciado = Evento(
+                    id=evento_dict['id_evento'],
+                    titulo=evento_dict['titulo'],
+                    descricao=evento_dict['descricao'],
+                    data_inicio=evento_dict['data_inicio'],
+                    data_fim=evento_dict['data_fim'],
+                    local=evento_dict['local'],
+                    organizador=evento_dict['organizador']
+                )
+            return evento_instanciado
+        else:
+            raise ValueError(f"Tipo {tipo} não valido para tal ação")
         
 
 
