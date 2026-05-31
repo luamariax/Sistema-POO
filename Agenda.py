@@ -15,6 +15,8 @@ from Visuais.VisualizadorLogin import VisualizadorLogin
 from Visuais.VisualizadorMateria import VisualizadorMateria
 from Visuais.VisualizadorTodosEventos import VisualizadorTodosEventos
 from Visuais.VisualizadorTodosSemestres import VisualizadorTodosSemestres
+from Visuais.VisualizadorProva import VisualizadorProva
+from Visuais.VisualizadorTrabalho import VisualizadorTrabalho
 """controler"""
 
 from Controles.ControladorAtividade import ControladorAtividade
@@ -27,6 +29,8 @@ from Controles.ControladorLogin import ControladorLogin
 from Controles.ControladorMateria import ControladorMateria
 from Controles.ControladorTodosEventos import ControladorTodosEventos
 from Controles.ControladorTodosSemestres import ControladorTodosSemestres
+from Controles.ControladorProva import ControladorProva
+from Controles.ControladorTrabalho import ControladorTrabalho
 
 """servico"""
 from Servicos.Servico import Servico
@@ -55,6 +59,8 @@ def configurar_app():
     visual_materia = VisualizadorMateria()
     visual_todos_eventos = VisualizadorTodosEventos()
     visual_todos_semestres = VisualizadorTodosSemestres()
+    visual_prova = VisualizadorProva()
+    visual_trabalho = VisualizadorTrabalho()
     
     # Criar dicionários
     todos_visualizadores = {
@@ -67,7 +73,9 @@ def configurar_app():
         "pagina_especifico_evento": visual_especifico_evento,
         "pagina_especifico_semestre": visual_especifico_semestre,
         "pagina_materia": visual_materia,
-        "pagina_atividade_avaliativa": visual_atividade
+        "pagina_atividade_avaliativa": visual_atividade,
+        "pagina_prova": visual_prova,
+        "pagina_trabalho": visual_trabalho
     }
     
     rota = Rota(visual_home, None, todos_visualizadores, {})
@@ -83,6 +91,8 @@ def configurar_app():
     controle_materia = ControladorMateria(rota, servico,visual_materia)
     controle_todos_eventos = ControladorTodosEventos(rota, servico,visual_todos_eventos)
     controle_todos_semestres = ControladorTodosSemestres(rota, servico,visual_todos_semestres)
+    controle_prova = ControladorProva(rota, servico, visual_prova)
+    controle_trabalho = ControladorTrabalho(rota, servico, visual_trabalho)
     
     # Atualizar dicionário de controladores
     todos_controladores = {
@@ -95,7 +105,9 @@ def configurar_app():
         "pagina_especifico_evento": controle_especifico_evento,
         "pagina_especifico_semestre": controle_especifico_semestre,
         "pagina_materia": controle_materia,
-        "pagina_atividade_avaliativa": controle_atividade
+        "pagina_atividade_avaliativa": controle_atividade,
+        "pagina_prova": controle_prova,
+        "pagina_trabalho": controle_trabalho
     }
 
     # Criar Rota
@@ -113,6 +125,8 @@ def configurar_app():
     visual_materia.controlador = controle_materia
     visual_todos_eventos.controlador = controle_todos_eventos
     visual_todos_semestres.controlador = controle_todos_semestres
+    visual_prova.controlador = controle_prova
+    visual_trabalho.controlador = controle_trabalho
     
     return rota, visual_home
 

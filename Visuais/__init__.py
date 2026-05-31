@@ -8,6 +8,8 @@ from .VisualizadorLogin import VisualizadorLogin
 from .VisualizadorMateria import VisualizadorMateria
 from .VisualizadorTodosEventos import VisualizadorTodosEventos
 from .VisualizadorTodosSemestres import VisualizadorTodosSemestres
+from .VisualizadorProva import VisualizadorProva
+from .VisualizadorTrabalho import VisualizadorTrabalho
 
 __all__ = [
     'VisualizadorAbstrato',
@@ -20,5 +22,7 @@ __all__ = [
     'VisualizadorLogin',
     'VisualizadorMateria',
     'VisualizadorTodosEventos',
-    'VisualizadorTodosSemestres'
+    'VisualizadorTodosSemestres',
+    'VisualizadorProva',
+    'VisualizadorTrabalho'
 ]

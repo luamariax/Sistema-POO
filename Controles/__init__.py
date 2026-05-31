@@ -8,6 +8,8 @@ from .ControladorLogin import ControladorLogin
 from .ControladorMateria import ControladorMateria
 from .ControladorTodosEventos import ControladorTodosEventos
 from .ControladorTodosSemestres import ControladorTodosSemestres
+from .ControladorProva import ControladorProva
+from .ControladorTrabalho import ControladorTrabalho
 
 __all__ = [
     'ControladorAbstrato',
@@ -20,5 +22,7 @@ __all__ = [
     'ControladorLogin',
     'ControladorMateria',
     'ControladorTodosEventos',
-    'ControladorTodosSemestres'
+    'ControladorTodosSemestres',
+    'ControladorProva',
+    'ControladorTrabalho'
 ]
