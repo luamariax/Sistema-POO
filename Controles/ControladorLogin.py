@@ -5,19 +5,17 @@ função e variaveis usa snake_case
 """
 
 from .ControladorAbstrato import ControladorAbstrato
-from Servicos.ServicoUser import ServicoUser
+from Servicos.Servico import Servico
 
 class ControladorLogin(ControladorAbstrato):
-    def __init__(self, rota, service_login: ServicoUser, visualizador):
-        super().__init__(rota)
-        self.service = service_login
-        self.visualizador = visualizador
+    def __init__(self, rota, servico: Servico, visualizador):
+        super().__init__(rota, servico, visualizador)
 
     def processar_acao(self, acao: str, dados: dict = None):
         if acao == "login":
             email = dados.get("email")
             senha = dados.get("senha")
-            usuario = self.service.autenticar(email, senha)
+            usuario = self.servico.autenticar(email, senha)
             if usuario:
                 # Login bem-sucedido: navega para página 4 (comando "1")
                 self.visualizador.limpar_erro()

@@ -29,7 +29,7 @@ from Controles.ControladorTodosEventos import ControladorTodosEventos
 from Controles.ControladorTodosSemestres import ControladorTodosSemestres
 
 """servico"""
-from Servicos.ServicoUser import ServicoUser
+from Servicos.Servico import Servico
 
 """modelos"""
 from Modelos.Rota import Rota
@@ -43,7 +43,7 @@ def configurar_app():
     diretorio_atual = os.path.dirname(os.path.abspath(__file__))
     caminho_arquivo = os.path.join(diretorio_atual, "Arquivo.xlsx")
     repo = Repositorio(caminho_arquivo)
-    servico_user = ServicoUser(repo)
+    servico = Servico(repo)
 
     visual_atividade = VisualizadorAtividade()
     visual_cadastro = VisualizadorCadastro()
@@ -73,16 +73,16 @@ def configurar_app():
     rota = Rota(visual_home, None, todos_visualizadores, {})
 
     # Criar instâncias dos controladores
-    controle_atividade = ControladorAtividade(rota)
-    controle_cadastro = ControladorCadastro(rota, servico_user, visual_cadastro)
-    controle_entrada = ControladorEntrada(rota)
-    controle_especifico_evento = ControladorEspecificoEvento(rota)
-    controle_especifico_semestre = ControladorEspecificoSemestre(rota, repo)
-    controle_home = ControladorHome(rota)
-    controle_login = ControladorLogin(rota, servico_user, visual_login)
-    controle_materia = ControladorMateria(rota, repo)
-    controle_todos_eventos = ControladorTodosEventos(rota)
-    controle_todos_semestres = ControladorTodosSemestres(rota)
+    controle_atividade = ControladorAtividade(rota, servico,visual_atividade)
+    controle_cadastro = ControladorCadastro(rota, servico, visual_cadastro)
+    controle_entrada = ControladorEntrada(rota, servico, visual_entrada)
+    controle_especifico_evento = ControladorEspecificoEvento(rota, servico,visual_especifico_evento)
+    controle_especifico_semestre = ControladorEspecificoSemestre(rota, servico,visual_especifico_semestre)
+    controle_home = ControladorHome(rota, servico,visual_home)
+    controle_login = ControladorLogin(rota, servico, visual_login)
+    controle_materia = ControladorMateria(rota, servico,visual_materia)
+    controle_todos_eventos = ControladorTodosEventos(rota, servico,visual_todos_eventos)
+    controle_todos_semestres = ControladorTodosSemestres(rota, servico,visual_todos_semestres)
     
     # Atualizar dicionário de controladores
     todos_controladores = {

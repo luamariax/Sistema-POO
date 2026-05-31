@@ -19,11 +19,13 @@ classe usa PascalCase
 função e variaveis usa snake_case
 """
 from .ControladorAbstrato import ControladorAbstrato
+from Servicos.Servico import Servico
 
 class ControladorEspecificoSemestre(ControladorAbstrato):
-    def __init__(self, rota, repositorio):
-        self.rota = rota
-        self.repositorio = repositorio
+    def __init__(self, rota, servico: Servico, visualizador):
+        super().__init__(rota, servico, visualizador)
+        self.repositorio = servico.repositorio
+
 
     def carregar_dados_para_tela(self, id_user: str, id_semestre: str, visualizador):
         # Busca o semestre pelo ID

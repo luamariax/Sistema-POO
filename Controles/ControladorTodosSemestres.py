@@ -5,14 +5,12 @@ função e variaveis usa snake_case
 """
 from .ControladorAbstrato import ControladorAbstrato
 
-"""import dos servicos"""
-from Controles.ControladorAbstrato import ControladorAbstrato
+from Servicos.Servico import Servico
 
 
 class ControladorTodosSemestres(ControladorAbstrato):
-    def __init__(self, rota, repositorio):
-        self.rota = rota
-        self.repositorio = repositorio
+    def __init__(self, rota, servico: Servico, visualizador):
+        super().__init__(rota, servico, visualizador)
 
         
     def processar_acao(self, acao: str, dados: dict = None):

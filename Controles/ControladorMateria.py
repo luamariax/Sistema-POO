@@ -24,11 +24,12 @@ from Controles.ControladorAbstrato import ControladorAbstrato
 from Negocio.Materia import Materia
 from Negocio.Prova import Prova
 from Negocio.Trabalho import Trabalho
+from Servicos.Servico import Servico
 
 class ControladorMateria(ControladorAbstrato):
-    def __init__(self, rota, repositorio):
-        self.rota = rota
-        self.repositorio = repositorio
+    def __init__(self, rota, servico: Servico, visualizador):
+        super().__init__(rota, servico, visualizador)
+        self.repositorio = servico.repositorio
         self.materia_selecionada_id = None # <--- MEMÓRIA
         self.id_user_logado = None
         self.id_semestre_ativo = None
