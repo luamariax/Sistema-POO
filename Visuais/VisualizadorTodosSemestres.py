@@ -152,13 +152,20 @@ class VisualizadorTodosSemestres(VisualizadorAbstrato):
             )
 
         # JUNTA TUDO NA TELA FINAL
-        return ft.Column([
+        coluna_principal = ft.Column([
             cabecalho,
             ft.Divider(color=ft.Colors.BLUE_200),
             coluna_lista,
             ft.Divider(color=ft.Colors.GREY_300),
             area_criacao
         ], scroll=ft.ScrollMode.AUTO)
+
+        return ft.Container(
+            content=coluna_principal,
+            expand=True,
+            padding=20 # Um padding extra para dar um respiro às bordas da tela
+        )
+        
 
     #FUNÇÕES INTERNAS DE LÓGICA DO FLET
     
