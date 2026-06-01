@@ -40,7 +40,6 @@ class VisualizadorEspecificoSemestre(VisualizadorAbstrato):
                     ft.Text("Nenhuma matéria cadastrada.", size=18, weight=ft.FontWeight.BOLD),
                     ft.Text("Deseja cadastrar uma nova disciplina?", size=14)
                 ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-                alignment=ft.alignment.center,
                 padding=30
             )
         else:
