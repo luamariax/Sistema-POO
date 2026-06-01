@@ -151,14 +151,14 @@ class Servico():
         elif tipo == 'Materia':
             todos_materias_list_dict = self.repositorio.buscar_materias_por_semestre_usuario(self._id_user_logado, self._id_semestre_logado)
             materia_visualizado_dict = todos_materias_list_dict[posicao]
-            self._id_materia_logado = materia_visualizado_dict['id_semestre']
+            self._id_materia_logado = materia_visualizado_dict['id_materia']
             materia_instanciado = Materia(
-                id=materia_visualizado_dict['id'],
+                id=materia_visualizado_dict['id_materia'],
                 titulo=materia_visualizado_dict['titulo'],
                 descricao=materia_visualizado_dict['descricao'],
                 professor=materia_visualizado_dict['professor'],
                 sala=materia_visualizado_dict['sala'],
-                horarios=materia_visualizado_dict['horarios']
+                horarios=materia_visualizado_dict['horario']
             )
             self._dic_objeto = materia_visualizado_dict
             self._objetos_do_usuario = materia_instanciado
