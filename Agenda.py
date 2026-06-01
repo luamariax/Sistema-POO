@@ -33,7 +33,7 @@ from Controles.ControladorProva import ControladorProva
 from Controles.ControladorTrabalho import ControladorTrabalho
 
 """servico"""
-from Servicos.Servico import Servico
+from Modelos.Servico import Servico
 
 """modelos"""
 from Modelos.Rota import Rota

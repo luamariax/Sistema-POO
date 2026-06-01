@@ -24,7 +24,7 @@ from Controles.ControladorAbstrato import ControladorAbstrato
 from Negocio.Materia import Materia
 from Negocio.Prova import Prova
 from Negocio.Trabalho import Trabalho
-from Servicos.Servico import Servico
+from Modelos.Servico import Servico
 
 class ControladorMateria(ControladorAbstrato):
     def __init__(self, rota, servico: Servico, visualizador):

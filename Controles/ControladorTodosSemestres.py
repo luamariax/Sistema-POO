@@ -16,7 +16,7 @@ class ControladorTodosSemestres(ControladorAbstrato):
 
 
 from .ControladorAbstrato import ControladorAbstrato
-from Servicos.Servico import Servico
+from Modelos.Servico import Servico
 
 
 class ControladorTodosSemestres(ControladorAbstrato):

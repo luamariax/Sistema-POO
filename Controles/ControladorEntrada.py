@@ -5,7 +5,7 @@ função e variaveis usa snake_case
 """
 
 from .ControladorAbstrato import ControladorAbstrato
-from Servicos.Servico import Servico
+from Modelos.Servico import Servico
 
 
 class ControladorEntrada(ControladorAbstrato):

@@ -1,8 +1,0 @@
-***************************************
-
-EVENTO EM ESPECÍFICO
-
-***************************************
-Digite 0 para voltar a pagina com todos
-os seus eventos
-***************************************

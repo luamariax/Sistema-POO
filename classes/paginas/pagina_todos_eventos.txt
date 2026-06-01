@@ -1,8 +1,0 @@
-***************************************
-
-LISTA COM TODOS OS SEUS EVENTOS
-
-***************************************
-Digite 0 para volta a pagina de entrada
-***************************************
-Qual deles quer ver em específico?
