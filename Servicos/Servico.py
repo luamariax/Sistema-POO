@@ -166,7 +166,7 @@ class Servico():
             raise ValueError(f"Tipo {tipo} não valido para tal ação")
         
     def pegar_dicionario_do_objeto(self):
-        pass
+        return self._dic_objeto
 
     def retirar_objeto(self, tipo: str):
         """
