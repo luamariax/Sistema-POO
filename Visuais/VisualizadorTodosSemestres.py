@@ -70,7 +70,7 @@ class VisualizadorTodosSemestres(VisualizadorAbstrato):
                     ft.Text("Nenhum semestre cadastrado.", size=18, weight=ft.FontWeight.BOLD, color=ft.Colors.GREY_700),
                     ft.Text("Deseja cadastrar um novo semestre?", size=14, color=ft.Colors.GREY_500)
                 ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-                alignment=ft.alignment.center,
+                alignment=ft.Alignment.CENTER,
                 padding=30
             )
         else:

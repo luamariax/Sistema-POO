@@ -119,7 +119,7 @@ class Servico():
         Irá receber uma lista de dicionários, e selecionará pela posição recebida.
         Criará o objeto com o dicionário.
         """
-        if tipo == 'Semestres':
+        if tipo == 'Semestre':
             todos_semestres_list_dict = self.repositorio.buscar_semestres_por_usuario(self._id_user_logado)
             semestre_visualizado_dict = todos_semestres_list_dict[posicao]
             self._id_semestre_logado = semestre_visualizado_dict['id_semestre']
@@ -148,7 +148,7 @@ class Servico():
                 )
             self._dic_objeto = evento_visualizado_dict
             self._objetos_do_usuario = evento_instanciado
-        if tipo == 'Materia':
+        elif tipo == 'Materia':
             todos_materias_list_dict = self.repositorio.buscar_materias_por_semestre_usuario(self._id_user_logado, self._id_semestre_logado)
             materia_visualizado_dict = todos_materias_list_dict[posicao]
             self._id_materia_logado = materia_visualizado_dict['id_semestre']

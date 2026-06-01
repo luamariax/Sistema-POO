@@ -66,6 +66,7 @@ class User():
                     id=semestre_dict['id_semestre'],
                     titulo=semestre_dict['titulo'],
                     descricao=semestre_dict['descricao'],
+                    ano=semestre_dict['ano'],
                     semestre_num=semestre_dict['semestre_num'],
                     ativo=semestre_dict['ativo']
                 )

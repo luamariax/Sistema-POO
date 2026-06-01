@@ -45,7 +45,7 @@ class ControladorTodosSemestres(ControladorAbstrato):
             posicao = int(partes[1])   # Fica com a posição matemática (ex: 0)
             
             if comando_rota == "1":
-                self.servico.instanciar_objeto('Semestres', posicao)
+                self.servico.instanciar_objeto('Semestre', posicao)
                 self.rota.atualizar_estado(comando_rota)
             
         elif acao == "salvar_novo":
