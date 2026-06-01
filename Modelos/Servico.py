@@ -27,6 +27,15 @@ class Servico():
     @property
     def usuario_logado(self) -> Optional[str]:
         return self._usuario_logado
+    
+    @property
+    def dic_objeto(self) -> Optional[str]:
+        return self._dic_objeto
+    
+    @property
+    def dic_atividade(self) -> Optional[str]:
+        return self._dic_atividade
+    
     # ---------- id_user_logado ----------
     @property
     def id_user_logado(self) -> Optional[str]:
