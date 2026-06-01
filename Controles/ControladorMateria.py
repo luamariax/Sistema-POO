@@ -1,34 +1,12 @@
-"""
-padrões de escrita
-classe usa PascalCase
-função e variaveis usa snake_case
-"""
 
-""""
-from .ControladorAbstrato import ControladorAbstrato
-
-#import dos servicos
-from Controles.ControladorAbstrato import ControladorAbstrato
-class ControladorMateria(ControladorAbstrato):
-    def processar_acao(self, acao: str, dados: dict = None):
-        self.rota.atualizar_estado(acao)
-"""
 """
 padrões de escrita
 classe usa PascalCase
 função e variáveis usa snake_case
 """
-<<<<<<< HEAD
 
-from Controles.ControladorAbstrato import ControladorAbstrato
-from Negocio.Materia import Materia
-from Negocio.Prova import Prova
-from Negocio.Trabalho import Trabalho
-from Modelos.Servico import Servico
-=======
 from .ControladorAbstrato import ControladorAbstrato
-from Servicos.Servico import Servico
->>>>>>> 8f36fd60d3d5fc98218997a25f27f8c84c40741f
+from Modelos.Servico import Servico
 
 class ControladorMateria(ControladorAbstrato):
     def __init__(self, rota, servico: Servico, visualizador):
