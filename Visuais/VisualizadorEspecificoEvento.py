@@ -4,9 +4,9 @@ classe usa PascalCase
 função e variaveis usa snake_case
 """
 
-"""import flet as ft
+import flet as ft
 from .VisualizadorAbstrato import VisualizadorAbstrato
-
+"""
 class VisualizadorEspecificoEvento(VisualizadorAbstrato):
     def __init__(self):
         self.controlador = None
@@ -38,22 +38,7 @@ class VisualizadorEspecificoEvento(VisualizadorAbstrato):
         
         """
 
-import flet as ft
-from abc import ABC, abstractmethod
 
-
-class VisualizadorAbstrato(ABC):
-    @abstractmethod
-    def nome_da_pagina(self) -> str:
-        pass
-    
-    @abstractmethod
-    def construir(self):
-        pass
-    
-    @abstractmethod
-    def mostrar(self, page):
-        pass
 
 
 class VisualizadorEspecificoEvento(VisualizadorAbstrato):
@@ -230,38 +215,4 @@ class VisualizadorEspecificoEvento(VisualizadorAbstrato):
         page.add(self.construir())
 
 
-class ControladorStub:
-    """Imita o controlador real fornecendo dados fictícios e registrando ações."""
- 
-    EVENTO_EXEMPLO = {
-        "titulo":      "Festival de Tecnologia 2025",
-        "descricao":   "Um evento que reúne desenvolvedores, designers e entusiastas "
-                       "de tecnologia para palestras, workshops e networking. "
-                       "Venha aprender, compartilhar e se conectar com a comunidade!",
-        "data_inicio": "10/08/2025 às 09:00",
-        "data_fim":    "12/08/2025 às 18:00",
-        "local":       "Centro de Convenções BH, Belo Horizonte – MG",
-        "organizador": "TechBH Comunidade",
-    }
- 
-    def dar_dados(self) -> dict:
-        return self.EVENTO_EXEMPLO
- 
-    def processar_acao(self, comando: str):
-        print(f"[ControladorStub] ação recebida: '{comando}'")
 
-# ── Ponto de entrada ─────────────────────────────────────────────────────────
-def main(page: ft.Page):
-    page.title = "App com Arquitetura MVC - Múltiplos Arquivos"
-    page.theme_mode = ft.ThemeMode.LIGHT
-    page.padding = 20
-    page.window_width = 400
-    page.window_height = 600
- 
-    view = VisualizadorEspecificoEvento()
-    view.controlador = ControladorStub()
-    view.mostrar(page)
-
-if __name__ == "__main__":
-    pagina = ft.Page
-    main(pagina)
