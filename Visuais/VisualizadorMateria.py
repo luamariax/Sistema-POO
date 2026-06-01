@@ -29,102 +29,71 @@ class VisualizadorMateria(VisualizadorAbstrato):
         page.clean()
         page.add(self.construir())
 """
-
 import flet as ft
 from .VisualizadorAbstrato import VisualizadorAbstrato
+from Controles.ControladorAbstrato import ControladorAbstrato
 
 class VisualizadorMateria(VisualizadorAbstrato):
     def __init__(self):
-        # A variável 'materia' começará como None. 
-        # O Controlador vai preenchê-la com o objeto TADMateria real.
-        self.materia = None 
+        self._controlador = None
+        self.titulo_materia = "Carregando..."
+        self.professor = "Carregando..."
+        self.sala = "Carregando..."
+        self.horarios = "Carregando..."
+
+    @property
+    def controlador(self):
+        return self._controlador
     
+    @controlador.setter
+    def controlador(self, controle):
+        if not isinstance(controle, ControladorAbstrato):
+            raise TypeError("Objeto não é do tipo Controlador.")
+        self._controlador = controle
+
     def nome_da_pagina(self) -> str:
         return "pagina_materia"
-    
-    def construir(self):
-        # Proteção: Se a tela tentar desenhar antes dos dados do controlador chegarem
-        if not self.materia:
-            # Trocamos o Container com alignment por uma Row centralizada (funciona em qualquer versão do Flet)
-            return ft.Row([
-                ft.Text("A carregar dados da matéria...", size=20, color=ft.Colors.GREY)
-            ], alignment=ft.MainAxisAlignment.CENTER)
 
-        # ==========================================
-        # 1. CABEÇALHO
-        # ==========================================
-        botao_voltar = ft.IconButton(
-            icon=ft.Icons.ARROW_BACK,
-            icon_color=ft.Colors.BLUE_900,
-            on_click=lambda e: self._on_click(e, "0")
+    def construir(self):
+        # Cabeçalho
+        botao_voltar = ft.IconButton(icon=ft.Icons.ARROW_BACK, on_click=lambda e: self._on_click(e, "0"))
+        titulo = ft.Text(f"📘 {self.titulo_materia}", size=28, weight=ft.FontWeight.BOLD)
+
+        
+        # Cartão de Informações
+        info_card = ft.Card(
+            content=ft.Container(
+                content=ft.Column([
+                    ft.ListTile(leading=ft.Icon(ft.Icons.PERSON), title=ft.Text("Professor"), subtitle=ft.Text(self.professor)),
+                    ft.ListTile(leading=ft.Icon(ft.Icons.ROOM), title=ft.Text("Sala"), subtitle=ft.Text(self.sala)),
+                    ft.ListTile(leading=ft.Icon(ft.Icons.SCHEDULE), title=ft.Text("Horários"), subtitle=ft.Text(self.horarios)),
+                ]),
+                padding=10
+            )
         )
 
-        titulo_com_botao = ft.Row([
-            botao_voltar,
-            ft.Text(f"📚 {self.materia.nome}", size=26, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900)
-        ])
+        return ft.Container(
+            content=ft.Column([
+                ft.Row([botao_voltar, titulo]),
+                ft.Divider(),
+                info_card,
+                ft.Row([
+                    ft.ElevatedButton("Ver Provas", icon=ft.Icons.EDIT_DOCUMENT, on_click=lambda e: self._on_click(e, "1")),
+                    ft.ElevatedButton("Ver Trabalhos", icon=ft.Icons.WORK, on_click=lambda e: self._on_click(e, "2")),
+                ], alignment=ft.MainAxisAlignment.CENTER)
+            ], scroll=ft.ScrollMode.AUTO),
+            padding=20
+        )
 
-        info_materia = ft.Column([
-            titulo_com_botao,
-            ft.Container(height=10),
-            ft.Text(f"👨‍🏫 Professor: {self.materia.professor}", size=16, color=ft.Colors.GREY_700),
-            ft.Text(f"⏰ Horário: {self.materia.horario}", size=16, color=ft.Colors.GREY_700),
-        ], padding=ft.padding.only(left=40))
-
-        # ==========================================
-        # 2. LISTA DINÂMICA DE ATIVIDADES
-        # ==========================================
-        coluna_atividades = ft.Column()
-
-        for ativ in self.materia.atividades:
-            is_prova = "Prova" in ativ.titulo
-            cor_fundo = ft.Colors.BLUE_50 if is_prova else ft.Colors.GREEN_50
-            cor_botao = ft.Colors.BLUE if is_prova else ft.Colors.GREEN
-            icone = "📝" if is_prova else "📁"
-            texto_botao = "Dar Nota" if is_prova else "Entregar"
-
-            cartao = ft.Container(
-                content=ft.Row([
-                    ft.Text(f"{icone} {ativ.titulo} ({ativ.valor} pts)\nStatus: {ativ.status}", 
-                            size=14, expand=True, weight=ft.FontWeight.W_500),
-                    ft.ElevatedButton(
-                        texto_botao,
-                        color=ft.Colors.WHITE,
-                        bgcolor=cor_botao,
-                        on_click=lambda e, id_ativ=ativ.id: self._on_click(e, f"dar_nota_{id_ativ}")
-                    )
-                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
-                padding=15,
-                bgcolor=cor_fundo,
-                border_radius=8
-            )
-            coluna_atividades.controls.extend([cartao, ft.Divider(height=10, color=ft.Colors.TRANSPARENT)])
-
-        # ==========================================
-        # 3. RENDERIZAÇÃO
-        # ==========================================
-        return ft.Column([
-            info_materia,
-            ft.Divider(color=ft.Colors.BLUE_200, thickness=2, height=30),
-            ft.Text("Atividades Avaliativas", size=20, weight=ft.FontWeight.BOLD, color=ft.Colors.BLUE_900),
-            ft.Container(height=10),
-            coluna_atividades,
-            ft.ElevatedButton(
-                "➕ Nova Atividade",
-                color=ft.Colors.WHITE,
-                bgcolor=ft.Colors.ORANGE_700,
-                on_click=lambda e: self._on_click(e, "1")
-            )
-        ])
-    
     def _on_click(self, e, comando):
-        if hasattr(self, 'controlador') and self.controlador:
+        if self.controlador:
             self.controlador.processar_acao(comando)
-    
+
     def mostrar(self, page: ft.Page):
+        self.page = page # Armazene a página
         if self.controlador and hasattr(self.controlador, 'carregar_dados_para_tela'):
-            self.controlador.carregar_dados_para_tela(self)
-            
+            self.controlador.carregar_dados_para_tela()
+        
         page.clean()
         page.add(self.construir())
         page.update()
