@@ -38,7 +38,7 @@ class Semestre(Objeto):
         return self._ativo
     @ativo.setter
     def ativo(self, valor):
-        if not valor.strip():
+        if valor is None or (isinstance(valor, str) and not valor.strip()):
             raise ValueError("CLASSE:Semestre.py//ativo não pode ser vazio.")
         elif valor == "True":
             self._ativo = True

@@ -22,6 +22,13 @@ class VisualizadorProva(VisualizadorAbstrato):
         self.valor_nota = ""
         self.nota_obtida = ""
 
+        self.exibir_form_nota = False
+        self.campo_nota = ft.TextField(
+            label="Nota obtida",
+            input_filter=ft.InputFilter(allow=True, regex_string=r"[0-9.]", replacement_string=""),
+            width=200
+        )
+
     @property
     def controlador(self):
         return self._controlador
@@ -89,15 +96,71 @@ class VisualizadorProva(VisualizadorAbstrato):
             )
         )
 
+        if self.exibir_form_nota:
+            area_nota = ft.Container(
+                content=ft.Column([
+                    ft.Text("Lançar Nota", size=16, weight=ft.FontWeight.BOLD, color=ft.Colors.GREEN_700),
+                    ft.Row([
+                        self.campo_nota,
+                        ft.ElevatedButton(
+                            "Salvar",
+                            bgcolor=ft.Colors.GREEN,
+                            color=ft.Colors.WHITE,
+                            on_click=self._salvar_nota
+                        ),
+                        ft.TextButton("Cancelar", on_click=self._cancelar_form),
+                    ], alignment=ft.MainAxisAlignment.START)
+                ]),
+                padding=15,
+                bgcolor=ft.Colors.GREEN_50,
+                border_radius=10
+            )
+        else:
+            area_nota = ft.Row([
+                ft.ElevatedButton(
+                    "Lançar Nota",
+                    icon=ft.Icons.EDIT,
+                    bgcolor=ft.Colors.GREEN_700,
+                    color=ft.Colors.WHITE,
+                    on_click=self._abrir_form_nota
+                )
+            ])
+
         return ft.Container(
             content=ft.Column([
                 cabecalho,
                 ft.Divider(),
                 info_card,
+                ft.Divider(),
+                area_nota,
             ], scroll=ft.ScrollMode.AUTO),
             expand=True,
             padding=20
         )
+
+    def _abrir_form_nota(self, e):
+        nota_str = str(self.nota_obtida).strip()
+        self.campo_nota.value = nota_str if nota_str not in ["", "None", "nan"] else ""
+        self.exibir_form_nota = True
+        self.page.clean()
+        self.page.add(self.construir())
+        self.page.update()
+
+    def _cancelar_form(self, e):
+        self.exibir_form_nota = False
+        self.page.clean()
+        self.page.add(self.construir())
+        self.page.update()
+
+    def _salvar_nota(self, e):
+        valor = self.campo_nota.value.strip() if self.campo_nota.value else ""
+        if not valor:
+            if self.page:
+                self.page.snack_bar = ft.SnackBar(ft.Text("Digite a nota antes de salvar."), open=True)
+                self.page.update()
+            return
+        self.exibir_form_nota = False
+        self._on_click(e, "salvar_nota", {'nota_obtida': valor})
 
     def _on_click(self, e, comando, dados=None):
         if self.controlador:

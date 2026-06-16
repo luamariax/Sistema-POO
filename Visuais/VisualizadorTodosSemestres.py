@@ -177,6 +177,25 @@ class VisualizadorTodosSemestres(VisualizadorAbstrato):
             self.page.update()
 
     def _salvar_novo(self, e):
+        campos_obrigatorios = [
+            (self.campo_titulo.value, "Título"),
+            (self.campo_descricao.value, "Descrição"),
+            (self.campo_ano.value, "Ano"),
+            (self.campo_semestre_num.value, "Semestre"),
+        ]
+        for valor, nome in campos_obrigatorios:
+            if not valor or not valor.strip():
+                if self.page:
+                    self.page.snack_bar = ft.SnackBar(ft.Text(f"O campo '{nome}' é obrigatório."), open=True)
+                    self.page.update()
+                return
+
+        if self.campo_ativo.value is None:
+            if self.page:
+                self.page.snack_bar = ft.SnackBar(ft.Text("Selecione se o semestre está Ativo."), open=True)
+                self.page.update()
+            return
+
         dados_do_form = {
             'titulo': self.campo_titulo.value,
             'descricao': self.campo_descricao.value,
@@ -184,13 +203,13 @@ class VisualizadorTodosSemestres(VisualizadorAbstrato):
             'semestre_num': self.campo_semestre_num.value,
             'ativo': self.campo_ativo.value
         }
-        
+
         self.campo_titulo.value = ""
         self.campo_descricao.value = ""
         self.campo_ano.value = ""
         self.campo_semestre_num.value = ""
         self.campo_ativo.value = None
-        
+
         self.exibir_formulario = False
         self._on_click(e, "salvar_novo", dados_do_form)
 

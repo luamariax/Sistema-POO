@@ -132,13 +132,15 @@ class Servico():
             todos_semestres_list_dict = self.repositorio.buscar_semestres_por_usuario(self._id_user_logado)
             semestre_visualizado_dict = todos_semestres_list_dict[posicao]
             self._id_semestre_logado = semestre_visualizado_dict['id_semestre']
+            ativo_raw = semestre_visualizado_dict.get('ativo')
+            ativo_normalizado = ativo_raw if ativo_raw in ("True", "False") else "False"
             semestre_instanciado = Semestre(
                     id=semestre_visualizado_dict['id_semestre'],
                     titulo=semestre_visualizado_dict['titulo'],
                     descricao=semestre_visualizado_dict['descricao'],
                     ano=semestre_visualizado_dict['ano'],
                     semestre_num=semestre_visualizado_dict['semestre_num'],
-                    ativo=semestre_visualizado_dict['ativo']
+                    ativo=ativo_normalizado
                 )
             self._dic_objeto = semestre_visualizado_dict
             self._objetos_do_usuario = semestre_instanciado

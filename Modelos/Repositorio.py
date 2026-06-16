@@ -318,8 +318,22 @@ class Repositorio:
         pass
         
     # ----------------------- Evento ------------------------
-    def editar_evento(self, dados: dict):#Não ta pronto
-        pass
+    def editar_evento(self, dados: dict):
+        obrigatorias = {'id_user', 'id_eventos', 'titulo', 'descricao', 'data_inicio', 'data_final', 'local', 'organizador'}
+        if not obrigatorias.issubset(dados.keys()):
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
+        df = self._planilhas.get('Eventos')
+        if df is None:
+            raise ValueError("CLASSE:repositorio.py//Planilha não existente.")
+        mascara = (
+            (df['id_user'] == dados['id_user']) &
+            (df['id_eventos'] == dados['id_eventos'])
+        )
+        if not mascara.any():
+            raise ValueError(f"CLASSE:repositorio.py//Evento '{dados['id_eventos']}' não encontrado.")
+        for campo in ('titulo', 'descricao', 'data_inicio', 'data_final', 'local', 'organizador'):
+            self._planilhas['Eventos'].loc[mascara, campo] = dados[campo]
+        self._salvar_todas_planilhas()
 
     # ----------------------- Semestre ------------------------
     def editar_semestre(self, dados: dict): # Tá PRONTISSIMO
@@ -364,12 +378,45 @@ class Repositorio:
         pass
 
     # ----------------------- Prova ------------------------
-    def editar_prova(self, dados: dict):#Não ta pronto
-        pass
+    def editar_prova(self, dados: dict):
+        obrigatorias = {'id_user', 'id_semestre', 'id_materia', 'id_prova', 'nota_obtida'}
+        if not obrigatorias.issubset(dados.keys()):
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
+        df = self._planilhas.get('Provas')
+        if df is None:
+            raise ValueError("CLASSE:repositorio.py//Planilha não existente.")
+        mascara = (
+            (df['id_user'] == dados['id_user']) &
+            (df['id_semestre'] == dados['id_semestre']) &
+            (df['id_materia'] == dados['id_materia']) &
+            (df['id_prova'] == dados['id_prova'])
+        )
+        if not mascara.any():
+            raise ValueError(f"CLASSE:repositorio.py//Prova '{dados['id_prova']}' não encontrada.")
+        self._planilhas['Provas'].loc[mascara, 'nota_obtida'] = dados['nota_obtida']
+        self._salvar_todas_planilhas()
     
     # --------------------- Trabalho ------------------------
-    def editar_trabalho(self, dados: dict): #Não ta pronto
-        pass
+    def editar_trabalho(self, dados: dict):
+        obrigatorias = {'id_user', 'id_semestre', 'id_materia', 'id_trabalho'}
+        if not obrigatorias.issubset(dados.keys()):
+            raise ValueError(f"CLASSE:repositorio.py//Campos mínimos obrigatórios: {obrigatorias}")
+        df = self._planilhas.get('Trabalhos')
+        if df is None:
+            raise ValueError("CLASSE:repositorio.py//Planilha não existente.")
+        mascara = (
+            (df['id_user'] == dados['id_user']) &
+            (df['id_semestre'] == dados['id_semestre']) &
+            (df['id_materia'] == dados['id_materia']) &
+            (df['id_trabalho'] == dados['id_trabalho'])
+        )
+        if not mascara.any():
+            raise ValueError(f"CLASSE:repositorio.py//Trabalho '{dados['id_trabalho']}' não encontrado.")
+        if 'nota_obtida' in dados:
+            self._planilhas['Trabalhos'].loc[mascara, 'nota_obtida'] = dados['nota_obtida']
+        if 'entregue' in dados:
+            self._planilhas['Trabalhos'].loc[mascara, 'entregue'] = dados['entregue']
+        self._salvar_todas_planilhas()
 
 
 

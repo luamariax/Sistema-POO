@@ -32,8 +32,14 @@ class ControladorEspecificoEvento(ControladorAbstrato):
         elif acao == "salvar_edicao":
             if dados:
                 dados['id_user'] = self.servico.usuario_logado.id_user
+                dados['id_eventos'] = self.servico.dic_objeto.get('id_eventos')
+                # O view envia 'data_fim' mas a coluna no Excel é 'data_final'
+                dados['data_final'] = dados.pop('data_fim', '')
 
-                self.servico.usuario_logado.editar_dependente('Evento', dados, self.servico.repositorio)
+                self.servico.repositorio.editar_evento(dados)
+
+                # Atualiza o dicionário em memória para a tela refletir as mudanças
+                self.servico._dic_objeto.update(dados)
 
                 self.carregar_dados_para_tela()
 
