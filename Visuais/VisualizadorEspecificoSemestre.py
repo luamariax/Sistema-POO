@@ -145,7 +145,7 @@ class VisualizadorEspecificoSemestre(VisualizadorAbstrato):
             'descricao': self.campo_descricao.value,
             'professor': self.campo_professor.value,
             'sala': self.campo_sala.value,
-            'horarios': self.campo_horarios.value,
+            'horario': self.campo_horarios.value,
         }
 
         self.campo_titulo.value = ""

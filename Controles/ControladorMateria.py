@@ -69,7 +69,32 @@ class ControladorMateria(ControladorAbstrato):
         if acao == "0":
             self.servico.retirar_objeto('Materia')
             self.rota.atualizar_estado("0")
-            
+
+        elif "-" in acao:
+            partes = acao.split("-")
+            tipo = partes[0]
+            posicao = int(partes[1])
+
+            if tipo == "1":
+                lista = self.servico.repositorio.buscar_provas_por_materia_semestre_usuario(
+                    self.servico.id_user_logado,
+                    self.servico.id_semestre_logado,
+                    self.servico.id_materia_logado
+                )
+                self.servico._dic_atividade = lista[posicao]
+                self.servico._id_prova_logado = lista[posicao]['id_prova']
+                self.rota.atualizar_estado("1")
+
+            elif tipo == "2":
+                lista = self.servico.repositorio.buscar_trabalhos_por_materia_semestre_usuario(
+                    self.servico.id_user_logado,
+                    self.servico.id_semestre_logado,
+                    self.servico.id_materia_logado
+                )
+                self.servico._dic_atividade = lista[posicao]
+                self.servico._id_trabalho_logado = lista[posicao]['id_trabalho']
+                self.rota.atualizar_estado("2")
+
         elif acao == "salvar_nova_prova":
             if dados:
                 dados['id_user'] = self.servico.id_user_logado

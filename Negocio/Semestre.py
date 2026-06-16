@@ -83,6 +83,6 @@ class Semestre(Objeto):
                 descricao=materia_dict['descricao'],
                 professor=materia_dict['professor'],
                 sala=materia_dict['sala'],
-                horarios=materia_dict['horarios']
+                horarios=materia_dict['horario']
             )
         return materia_instanciado

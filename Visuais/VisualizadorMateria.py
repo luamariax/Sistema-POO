@@ -246,7 +246,7 @@ class VisualizadorMateria(VisualizadorAbstrato):
             'titulo': self.t_titulo.value,
             'valor_nota': self.t_valor.value,
             'data_entrega': self.t_data.value,
-            'descricao': self.t_desc.value,
+            'descricao_tarefa': self.t_desc.value,
             'grupo': self.t_grupo.value
         }
         self.t_titulo.value = self.t_valor.value = self.t_data.value = self.t_desc.value = self.t_grupo.value = ""
