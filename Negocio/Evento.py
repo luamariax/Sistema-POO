@@ -39,4 +39,17 @@ class Evento(Objeto):
         
     def duracao(self) -> int:
         return (self.dataFim - self.dataInicio).days
-    
+
+    def criar(self, dados: dict) -> None:
+        print(f"Ações de criação executadas para o Evento: {self.titulo}")
+
+    def editar(self, dados: dict) -> None:
+        if "titulo" in dados: self.titulo = dados["titulo"]
+        if "descricao" in dados: self.descricao = dados["descricao"]
+        if "local" in dados: self.local = dados["local"]
+        if "organizador" in dados: self.organizador = dados["organizador"]
+        print(f"» Evento ID {self.id} editado com sucesso!")
+
+    def deletar(self) -> None:
+        print(f"» Evento '{self.titulo}' foi deletado do sistema.")
+

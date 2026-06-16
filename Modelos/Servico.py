@@ -145,13 +145,15 @@ class Servico():
         elif tipo == 'Evento':
             todos_eventos_list_dict = self.repositorio.buscar_eventos_por_usuario(self._id_user_logado)
             evento_visualizado_dict = todos_eventos_list_dict[posicao]
-            self._id_evento_logado = evento_visualizado_dict['id_semestre']
+            self._id_evento_logado = evento_visualizado_dict['id_eventos']
+            data_inicio_str = str(evento_visualizado_dict['data_inicio'])[:10]
+            data_final_str = str(evento_visualizado_dict['data_final'])[:10]
             evento_instanciado = Evento(
-                    id=evento_visualizado_dict['id_evento'],
+                    id=evento_visualizado_dict['id_eventos'],
                     titulo=evento_visualizado_dict['titulo'],
                     descricao=evento_visualizado_dict['descricao'],
-                    data_inicio=evento_visualizado_dict['data_inicio'],
-                    data_fim=evento_visualizado_dict['data_fim'],
+                    data_inicio=data_inicio_str,
+                    data_fim=data_final_str,
                     local=evento_visualizado_dict['local'],
                     organizador=evento_visualizado_dict['organizador']
                 )

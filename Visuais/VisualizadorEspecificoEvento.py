@@ -90,7 +90,7 @@ class VisualizadorEspecificoEvento(VisualizadorAbstrato):
                     ),
                     ft.Divider(color=ft.Colors.BLUE_100),
                     _linha_info(ft.Icons.CALENDAR_TODAY,     "Data de início", self.evento.get('data_inicio', '—')),
-                    _linha_info(ft.Icons.EVENT_AVAILABLE,    "Data de fim",    self.evento.get('data_fim', '—')),
+                    _linha_info(ft.Icons.EVENT_AVAILABLE,    "Data de fim",    self.evento.get('data_final', '—')),
                     _linha_info(ft.Icons.LOCATION_ON,        "Local",          self.evento.get('local', '—')),
                     _linha_info(ft.Icons.PERSON,             "Organizador",    self.evento.get('organizador', '—')),
                     _linha_info(ft.Icons.DESCRIPTION,        "Descrição",      self.evento.get('descricao', '—')),
@@ -194,7 +194,7 @@ class VisualizadorEspecificoEvento(VisualizadorAbstrato):
             self.campo_titulo.value      = self.evento.get('titulo', '')
             self.campo_descricao.value   = self.evento.get('descricao', '')
             self.campo_data_inicio.value = self.evento.get('data_inicio', '')
-            self.campo_data_fim.value    = self.evento.get('data_fim', '')
+            self.campo_data_fim.value    = self.evento.get('data_final', '')
             self.campo_local.value       = self.evento.get('local', '')
             self.campo_organizador.value = self.evento.get('organizador', '')
 
